@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author raloi
+ * @author Mathew Aloisio
  */
 public class JSONParser {
     public static String URLToDataString(String pURL) {

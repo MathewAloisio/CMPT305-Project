@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * A country type to store information about
- * @author
+ * @author Mathew Aloisio
  */
 public class Country {
     public final String m_Code;         // The country code.

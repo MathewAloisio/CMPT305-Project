@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.ArrayList;
 
 /**
- * A Person structured like the Nobel Prize JSON database's laureate.
- * @author
+ * A Laureate structured like the Nobel Prize JSON database's laureate.
+ * @author Mathew Aloisio
  */
-public class Person {
+public class Laureate {
     public final int m_DatabaseID; // The ID of the laureate in the nobel prize database.
     public final String m_FirstName;
     public final String m_LastName;
@@ -20,12 +20,12 @@ public class Person {
     public final Country m_DeathCountry;
     public final int m_DeathCountryNameID;
     public final Gender m_Gender;
-    public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 person can win multiple prizes.
-    // NOTE: Shares per-award and motivation for giving each person an award
+    public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 laureate can win multiple prizes.
+    // NOTE: Shares per-award and motivation for giving each laureate an award
     //      is done in the Prize class.
     
     /**
-     * Constructs a new instance of a "Person".
+     * Constructs a new instance of a Laureate.
      * @param pID - The database ID of the laureate in the Nobel prize database.
      * @param pFirstName - The first name of the laureate.
      * @param pLastName  - The last name of the laureate.
@@ -39,15 +39,15 @@ public class Person {
      * @param pDeathCountryNameID - The position of the country's name in pDeathCountry.m_Names[].
      * @param pGender 
      */
-    public Person(int pID, String pFirstName, String pLastName, String pBornDate, String pBornCity, Country pBornCountry, int pBornCountryNameID, String pDeathDate, String pDeathCity, Country pDeathCountry, int pDeathCountryNameID, Gender pGender){
+    public Laureate(int pID, String pFirstName, String pLastName, Date pBornDate, String pBornCity, Country pBornCountry, int pBornCountryNameID, Date pDeathDate, String pDeathCity, Country pDeathCountry, int pDeathCountryNameID, Gender pGender){
         m_DatabaseID = pID;
         m_FirstName = pFirstName;
         m_LastName = pLastName;
-        m_BornDate = Util.GetDateFromString(pBornDate);
+        m_BornDate = pBornDate;
         m_BornCity = pBornCity;
         m_BornCountry = pBornCountry;
         m_BornCountryNameID = pBornCountryNameID;
-        m_DeathDate = Util.GetDateFromString(pDeathDate);
+        m_DeathDate = pDeathDate;
         m_DeathCity = pDeathCity;
         m_DeathCountry = pDeathCountry;
         m_DeathCountryNameID = pDeathCountryNameID;
@@ -57,12 +57,43 @@ public class Person {
     }
     
     /**
+     * Checks if this Laureate is a person.
+     * @return true if the Laureate is a person, otherwise false.
+     */
+    public boolean IsPerson() {
+        return m_FirstName.length() + m_LastName.length() > 0;
+    }
+    
+    /**
+     * Returns the appropriate name of their birth country for this person's time.
+     * @return m_BornCountry.m_Names.get(m_BornCountryNameID);
+     */
+    public String GetBornCountryName() {
+        return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
+    }
+    
+    /**
+     * Returns the appropriate name of their death country for this person's time.
+     * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
+     */
+    public String GetDeathCountryName() {
+        return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
+    }
+    
+    /**
      * Given the string "male" or "female" returns the appropriate Gender enumerate value.
      * @param pGender - The String name of the gender, "male" or "female".
      * @return pGender.compareTo("female") == 0 ? Gender.Female : Gender.Male;
      */
     public static Gender GetGenderFromString(String pGender) {
-        return pGender.compareTo("female") == 0 ? Gender.Female : Gender.Male;
+        if (pGender.compareTo("female") == 0)
+            return Gender.FEMALE;
+        if (pGender.compareTo("male") == 0)
+            return Gender.MALE;
+        if (pGender.compareTo("org") == 0)
+            return Gender.ORGANIZATION;
+        
+        return Gender.UNKNOWN;
     }
 
     @Override

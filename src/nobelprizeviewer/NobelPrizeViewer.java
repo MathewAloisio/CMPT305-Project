@@ -17,11 +17,10 @@ import com.google.gson.*;
 
 import JSONParser.*;
 import com.google.gson.JsonElement;
-import java.util.Map;
 
 /**
  *
- * @author raloi
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class NobelPrizeViewer extends Application {
     @Override
@@ -46,17 +45,17 @@ public class NobelPrizeViewer extends Application {
         // Fetch JSON data.
         System.out.print("Fetching JSON data...");
         JsonObject countryData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/country.json");
-        JsonObject peopleData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/laureate.json");
+        JsonObject laureateData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/laureate.json");
         JsonObject prizeData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/prize.json");
         System.out.println(" DONE!");
         
         //TODO: Change dialogtext to parsiing JSON data...
         
-        // Parse JSON data into countries, then persons, then prizes.
+        // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
         HashMap<String, Country> countryMap = ParseCountries(countryData);
-        ArrayList<Person> people = ParsePeople(peopleData, countryMap);
-        ArrayList<Prize> prizes = ParsePrizes(prizeData, people);
+        ArrayList<Laureate> laureates = ParseLaureates(laureateData, countryMap);
+        ArrayList<Prize> prizes = ParsePrizes(prizeData, laureates);
         System.out.println(" DONE!");
     }
     
@@ -93,18 +92,61 @@ public class NobelPrizeViewer extends Application {
      * @param pCountries - A map of valid country-codes and countries.
      * @return 
      */
-    public static ArrayList<Person> ParsePeople(JsonObject pData, HashMap<String, Country> pCountries) {
-        ArrayList<Person> list = new ArrayList<>();
+    public static ArrayList<Laureate> ParseLaureates(JsonObject pData, HashMap<String, Country> pCountries) {
+        ArrayList<Laureate> list = new ArrayList<>();
         
-        //TODO
+         for (JsonElement element : pData.get("laureates").getAsJsonArray()) {
+            JsonObject obj = element.getAsJsonObject();
+            String birthCountryName = obj.has("bornCountry") ? obj.get("bornCountry").getAsString() : "";
+            String deathCountryName = obj.has("diedCountry") ? obj.get("diedCountry").getAsString() : "";
+            
+            // Determine born/death country & country name index.
+            Country birthCountry = obj.has("bornCountryCode") ? pCountries.get(obj.get("bornCountryCode").getAsString()) : null;
+            int birthCountryNameID = 0;
+            if (birthCountry != null) {
+                for (; birthCountryNameID < birthCountry.m_Names.size(); ++birthCountryNameID) {
+                    if (birthCountry.m_Names.get(birthCountryNameID).compareTo(birthCountryName) == 0)
+                        break;
+                }
+            }
+            
+            Country deathCountry = obj.has("diedCountryCode") ? pCountries.get(obj.get("diedCountryCode").getAsString()) : null;
+            int deathCountryNameID = 0;
+            if (deathCountry != null) {
+                for (; deathCountryNameID < deathCountry.m_Names.size(); ++deathCountryNameID) {
+                    if (deathCountry.m_Names.get(deathCountryNameID).compareTo(deathCountryName) == 0)
+                        break;
+                }
+            }
+                
+            // Create a new laureate and add them to the list.
+            list.add(new Laureate(
+                obj.get("id").getAsInt(),
+                obj.has("firstname") ? obj.get("firstname").getAsString() : "",
+                obj.has("surname") ? obj.get("surname").getAsString() : "",
+                Util.GetDateFromString(obj.has("born") ? obj.get("born").getAsString() : "0000-00-00"),
+                obj.has("bornCity") ? obj.get("bornCity").getAsString() : "",
+                birthCountry,
+                birthCountryNameID,
+                Util.GetDateFromString(obj.has("died") ? obj.get("died").getAsString() : "0000-00-00"),
+                obj.has("diedCity") ? obj.get("diedCity").getAsString() : "",
+                deathCountry,
+                deathCountryNameID,
+                Laureate.GetGenderFromString(obj.get("gender").getAsString())
+            ));
+         }
         
         return list;
     }
     
-    public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Person> pPeople) {
+    public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates) {
         ArrayList<Prize> list = new ArrayList<>();
         
         //TODO
+        for (JsonElement element : pData.get("prizes").getAsJsonArray()) {
+            JsonObject obj = element.getAsJsonObject();
+            
+        }
         
         return list;
     }

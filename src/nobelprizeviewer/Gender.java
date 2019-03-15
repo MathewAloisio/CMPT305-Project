@@ -2,9 +2,11 @@ package nobelprizeviewer;
 
 /**
  * A Gender enumerate to assign a scoped type to genders.
- * @author
+ * @author Mathew Aloisio
  */
 public enum Gender {
-    Male,
-    Female
+    UNKNOWN, // Incase there is any unknown gender types in their like "org".
+    MALE,
+    FEMALE,
+    ORGANIZATION // For some reason their database stores "org" as a gender?
 }

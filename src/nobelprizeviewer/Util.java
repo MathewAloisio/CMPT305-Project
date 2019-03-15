@@ -8,14 +8,14 @@ import java.text.SimpleDateFormat;
 
 /**
  * Utility functions.
- * @author
+ * @author Mathew Aloisio
  */
 public class Util {
-    public static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy:MMM:dd", Locale.ENGLISH);
+    public static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     
     /**
-     * Given a date in the format "yyyy:MM:dd" returns a Date object.
-     * @param pDate - The date in the format "yyyy:MM:dd".
+     * Given a date in the format "yyyy-MM-dd" returns a Date object.
+     * @param pDate - The date in the format "yyyy-MM-dd".
      * @see https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
      * @return Date representation of pDate or null if conversion failed.
      */

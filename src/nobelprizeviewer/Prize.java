@@ -4,23 +4,23 @@ import java.util.ArrayList;
 
 /**
  * A Nobel Prize structured after the "prize" category in the JSON database.
- * @author 
+ * @author Mathew Aloisio
  */
 public class Prize {
     // Inner-class: LaureateEntry.
     public class LaureateEntry {
-        public final Person m_Person;     // The person associated with a prize.
-        public final int m_Share;         // The person's share in their associated prize.
-        public final String m_Motivation; // The motiviation for giving this person a share in the prize.
+        public final Laureate m_Laureate; // The laureate associated with a prize.
+        public final int m_Share;         // The laureate's share in their associated prize.
+        public final String m_Motivation; // The motiviation for giving this laureate a share in the prize.
         
         /**
          * 
-         * @param pPerson - The person associated with this entry.
-         * @param pShare - The # of shares out of 10 this person was awarded of this prize.
-         * @param pMotivation - The motivation for giving this person a share in the prize.
+         * @param pLaureate - The laureate associated with this entry.
+         * @param pShare - The # of shares out of 10 this laureate was awarded of this prize.
+         * @param pMotivation - The motivation for giving this laureate a share in the prize.
          */
-        public LaureateEntry(Person pPerson, int pShare, String pMotivation) {
-            m_Person = pPerson;
+        public LaureateEntry(Laureate pLaureate, int pShare, String pMotivation) {
+            m_Laureate = pLaureate;
             m_Share = pShare;
             m_Motivation = pMotivation;
         }
@@ -83,7 +83,7 @@ public class Prize {
         builder.append("\", \"laureates\":\"[");
         for (LaureateEntry entry : m_Laureates) {
             builder.append('\"');
-            builder.append(entry.m_Person.toString());
+            builder.append(entry.m_Laureate.toString());
             builder.append("\", ");
         }
         builder.setLength(builder.length() - 2); // remove the last ", " from the builder.

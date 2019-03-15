@@ -2,7 +2,7 @@ package nobelprizeviewer;
 
 /**
  * Typed PrizeCategory enumerate implemented to avoid having to use raw strings.
- * @author
+ * @author Mathew Aloisio
  */
 public enum PrizeCategory {
     PEACE,
