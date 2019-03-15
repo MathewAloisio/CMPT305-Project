@@ -7,25 +7,6 @@ import java.util.ArrayList;
  * @author Mathew Aloisio
  */
 public class Prize {
-    // Inner-class: LaureateEntry.
-    public class LaureateEntry {
-        public final Laureate m_Laureate; // The laureate associated with a prize.
-        public final int m_Share;         // The laureate's share in their associated prize.
-        public final String m_Motivation; // The motiviation for giving this laureate a share in the prize.
-        
-        /**
-         * 
-         * @param pLaureate - The laureate associated with this entry.
-         * @param pShare - The # of shares out of 10 this laureate was awarded of this prize.
-         * @param pMotivation - The motivation for giving this laureate a share in the prize.
-         */
-        public LaureateEntry(Laureate pLaureate, int pShare, String pMotivation) {
-            m_Laureate = pLaureate;
-            m_Share = pShare;
-            m_Motivation = pMotivation;
-        }
-    }
-    
     // Prize class.
     public final int m_Year;
     public final PrizeCategory m_Category;

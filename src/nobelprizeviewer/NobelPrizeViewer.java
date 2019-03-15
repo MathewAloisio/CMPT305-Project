@@ -23,6 +23,10 @@ import com.google.gson.JsonElement;
  * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class NobelPrizeViewer extends Application {
+    public static HashMap<String, Country> COUNTRY_MAP;
+    public static ArrayList<Laureate> LAUREATES;
+    public static ArrayList<Prize> PRIZES;
+    
     @Override
     public void start(Stage pPrimaryStage) {
         // Initialize JSON data.
@@ -53,9 +57,9 @@ public class NobelPrizeViewer extends Application {
         
         // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
-        HashMap<String, Country> countryMap = ParseCountries(countryData);
-        ArrayList<Laureate> laureates = ParseLaureates(laureateData, countryMap);
-        ArrayList<Prize> prizes = ParsePrizes(prizeData, laureates);
+        COUNTRY_MAP = ParseCountries(countryData);
+        LAUREATES = ParseLaureates(laureateData, COUNTRY_MAP);
+        PRIZES = ParsePrizes(prizeData, LAUREATES);
         System.out.println(" DONE!");
     }
     
@@ -141,11 +145,36 @@ public class NobelPrizeViewer extends Application {
     
     public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates) {
         ArrayList<Prize> list = new ArrayList<>();
-        
-        //TODO
+
         for (JsonElement element : pData.get("prizes").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
+            // Generate list of awardees for this prize.
+            ArrayList<LaureateEntry> awardees = new ArrayList<>();
+            if (obj.has("laureates")) {
+                for (JsonElement subElement : obj.get("laureates").getAsJsonArray()) {
+                    JsonObject laureateObj = subElement.getAsJsonObject();
+                    Laureate laureate = Laureate.GetLaureateByID(pLaureates, laureateObj.get("id").getAsInt());
+                    awardees.add(new LaureateEntry(
+                        laureate,
+                        laureateObj.has("share") ? laureateObj.get("share").getAsInt() : 10,
+                        laureateObj.has("motivation") ? laureateObj.get("motivation").getAsString() : ""
+                    ));
+                }
+            }
             
+            // Add new prize to the list.
+            Prize prize = new Prize(
+                obj.get("year").getAsInt(),                                                     // Year.
+                Prize.GetCategoryFromString(obj.get("category").getAsString()),                 // Category.
+                obj.has("overallMotivation") ? obj.get("overallMotivation").getAsString() : "", // Motivation.
+                awardees                                                                        // Laureates.
+            );
+            list.add(prize);
+            
+            // For each awardee, add the award to their list of prizes.
+            awardees.forEach((entry) -> {
+                entry.m_Laureate.m_Prizes.add(prize);
+            });
         }
         
         return list;

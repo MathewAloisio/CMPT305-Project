@@ -95,6 +95,21 @@ public class Laureate {
         
         return Gender.UNKNOWN;
     }
+    
+    /**
+     * Given a list of laureates and an ID, returns the Laureate with the given database ID.
+     * @param pList
+     * @param pID
+     * @return Laureate where m_DatabaseID == pID, otherwise null.
+     */
+    public static Laureate GetLaureateByID(ArrayList<Laureate> pList, int pID) {
+        for (Laureate laureate : pList) {
+            if (laureate.m_DatabaseID == pID)
+                return laureate;
+        }
+        
+        return null;
+    }
 
     @Override
     public String toString() {
