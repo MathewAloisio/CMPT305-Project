@@ -1,5 +1,6 @@
 package nobelprizeviewer;
 
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -10,11 +11,11 @@ public class Person {
     public final int m_DatabaseID; // The ID of the laureate in the nobel prize database.
     public final String m_FirstName;
     public final String m_LastName;
-    public final String m_BornDate;
+    public final Date m_BornDate;
     public final String m_BornCity;
     public final Country m_BornCountry;
     public final int m_BornCountryNameID;
-    public final String m_DeathDate;
+    public final Date m_DeathDate;
     public final String m_DeathCity;
     public final Country m_DeathCountry;
     public final int m_DeathCountryNameID;
@@ -42,11 +43,11 @@ public class Person {
         m_DatabaseID = pID;
         m_FirstName = pFirstName;
         m_LastName = pLastName;
-        m_BornDate = pBornDate;
+        m_BornDate = Util.GetDateFromString(pBornDate);
         m_BornCity = pBornCity;
         m_BornCountry = pBornCountry;
         m_BornCountryNameID = pBornCountryNameID;
-        m_DeathDate = pDeathDate;
+        m_DeathDate = Util.GetDateFromString(pDeathDate);
         m_DeathCity = pDeathCity;
         m_DeathCountry = pDeathCountry;
         m_DeathCountryNameID = pDeathCountryNameID;
