@@ -23,7 +23,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.control.Label;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ListView;
 /**
  *
  * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
@@ -35,23 +37,29 @@ public class NobelPrizeViewerv2 extends Application {
 
     @Override
     public void start(Stage pPrimaryStage) {
-        // Initialize JSON data.
-        InitializeData();
+        // Initialize JSON data
+        StackPane allGend = new StackPane();
+        StackPane allCountry = new StackPane();
+        StackPane allPrize = new StackPane();
+        Scene genders = new Scene(allGend, 200, 200, Color.BLACK);
+        Scene country = new Scene(allCountry, 200, 200, Color.BLACK);
+        Scene prizes = new Scene(allPrize, 200, 200, Color.BEIGE);
+        InitializeData(allGend, allCountry, allPrize);
 
         // Build UI.
         //StackPane root = new StackPane();
-        StackPane allGend = new StackPane();
-        StackPane allPrize = new StackPane();
+
+
         StackPane allYear = new StackPane();
         StackPane allGenre = new StackPane();
-        StackPane allCountry = new StackPane();
+
         StackPane allLaureate = new StackPane();
 
         Scene years = new Scene(allYear, 300, 300, Color.CHOCOLATE);
-        Scene genders = new Scene(allGend, 200, 200, Color.BLACK);
-        Scene prizes = new Scene(allPrize, 200, 200, Color.BEIGE);
+
+
         Scene genre = new Scene(allGenre, 300, 300, Color.CHOCOLATE);
-        Scene country = new Scene(allCountry, 200, 200, Color.BLACK);
+
         Scene laureate = new Scene(allLaureate, 200, 200, Color.BEIGE);
 
 
@@ -102,13 +110,15 @@ public class NobelPrizeViewerv2 extends Application {
         allLaureate.getChildren().add(mainScreen5);
         allGenre.getChildren().add(mainScreen6);
 
+
         pPrimaryStage.setTitle("Nobel prize viewer");
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
+
     }
 
     // Section: JSON data parsing.
-    private static void InitializeData() {
+    private static void InitializeData(StackPane allGend, StackPane allCountry, StackPane allPrize) {
         //TODO: Fetching JSON data loading dialog...
 
         // Fetch JSON data.
@@ -122,10 +132,12 @@ public class NobelPrizeViewerv2 extends Application {
 
         // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
-        COUNTRY_MAP = ParseCountries(countryData);
+        COUNTRY_MAP = ParseCountries(countryData, allCountry);
         LAUREATES = ParseLaureates(laureateData, COUNTRY_MAP);
-        PRIZES = ParsePrizes(prizeData, LAUREATES);
+        PRIZES = ParsePrizes(prizeData, LAUREATES, allGend, allPrize);
         System.out.println(" DONE!");
+
+
     }
 
     /**
@@ -135,8 +147,10 @@ public class NobelPrizeViewerv2 extends Application {
      * @param pData - The JsonObject containing the country data.
      * @return HashMap with all country's keys are the country codes.
      */
-    public static HashMap<String, Country> ParseCountries(JsonObject pData) {
+    public static HashMap<String, Country> ParseCountries(JsonObject pData, StackPane allCountry) {
         HashMap<String, Country> map = new HashMap<>();
+
+
         for (JsonElement element : pData.get("countries").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
             String countryCode = obj.get("code").getAsString();
@@ -151,6 +165,18 @@ public class NobelPrizeViewerv2 extends Application {
             if (!country.m_Names.contains(countryName))
                 country.m_Names.add(countryName);
         }
+        /* Adds the countries to the UI
+         * Use val instead of val.m_Names for the entire expression and
+         * set the ArrayList type to country instead of arraylist for initialization
+        */
+        ArrayList<String> countries = new ArrayList();
+        for(String key: map.keySet()){
+            countries.add(key);
+        }
+           ListView<String> listView2 = new ListView<>(
+                FXCollections.observableArrayList(countries)
+        );
+        allCountry.getChildren().add(listView2);
 
         return map;
     }
@@ -208,10 +234,18 @@ public class NobelPrizeViewerv2 extends Application {
         return list;
     }
 
-    public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates) {
+    public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates, StackPane allGend, StackPane allPrize) {
         ArrayList<Prize> list = new ArrayList<>();
 
+        ListView<Laureate> listView = new ListView<>(
+                FXCollections.observableArrayList(pLaureates)
+        );
+        allGend.getChildren().add(listView);
+
+
+
         for (JsonElement element : pData.get("prizes").getAsJsonArray()) {
+
             JsonObject obj = element.getAsJsonObject();
             // Generate list of awardees for this prize.
             ArrayList<LaureateEntry> awardees = new ArrayList<>();
@@ -219,6 +253,7 @@ public class NobelPrizeViewerv2 extends Application {
                 for (JsonElement subElement : obj.get("laureates").getAsJsonArray()) {
                     JsonObject laureateObj = subElement.getAsJsonObject();
                     Laureate laureate = Laureate.GetLaureateByID(pLaureates, laureateObj.get("id").getAsInt());
+
                     awardees.add(new LaureateEntry(
                         laureate,
                         laureateObj.has("share") ? laureateObj.get("share").getAsInt() : 10,
@@ -241,6 +276,15 @@ public class NobelPrizeViewerv2 extends Application {
                 entry.m_Laureate.m_Prizes.add(prize);
             });
         }
+        /*
+         * Add the prizes to the prize category in the UI
+         * Some problems here
+        */
+
+         ListView<Prize> listView3 = new ListView<>(
+                FXCollections.observableArrayList(list)
+        );
+        allPrize.getChildren().add(listView3);
 
         return list;
     }
