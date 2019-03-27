@@ -23,19 +23,21 @@ public class UIOverviewPage extends SplitPane {
     protected final Text yearMaxSliderText;
     protected final Slider yearMinSlider;
     protected final Slider yearMaxSlider;
-    protected final ListView countryCodeListView;
+    protected final ListView<String> countryCodeListView;
     protected final Hyperlink countryCodeListSelectAll;
     protected final Hyperlink countryCodeListDeselectAll;
     protected final Text countryCodeText;
     protected final TextField affiliationTextField;
     protected final Text affiliationText;
     protected final Text prizeCategoryText;
-    protected final ListView prizeCategoryListView;
+    protected final ListView<String> prizeCategoryListView;
     protected final Hyperlink prizeCategoryListSelectAll;
     protected final Hyperlink prizeCategoryListDeselectAll;
     protected final Button searchButton;
     protected final AnchorPane displayPane;
     protected final Pagination displayPage;
+    
+    protected ArrayList<Prize> prizeList;
 
     public UIOverviewPage() {
         filterPane = new AnchorPane();
@@ -49,14 +51,14 @@ public class UIOverviewPage extends SplitPane {
         
         yearMinSlider = new Slider();
         yearMaxSlider = new Slider();
-        countryCodeListView = new ListView();
+        countryCodeListView = new ListView<>();
         countryCodeListSelectAll = new Hyperlink();
         countryCodeListDeselectAll = new Hyperlink();
         countryCodeText = new Text();
         affiliationTextField = new TextField();
         affiliationText = new Text();
         prizeCategoryText = new Text();
-        prizeCategoryListView = new ListView();
+        prizeCategoryListView = new ListView<>();
         prizeCategoryListSelectAll = new Hyperlink();
         prizeCategoryListDeselectAll = new Hyperlink();
         searchButton = new Button();
@@ -71,6 +73,8 @@ public class UIOverviewPage extends SplitPane {
      * @param pCountries
      */
     public void Initialize(ArrayList<Laureate> pLaureates, ArrayList<Prize> pPrizes, HashMap<String, Country> pCountries) {
+        prizeList = pPrizes;
+        
         // Calculate min year, max year.
         int minYear = 0;
         int maxYear = 0;
@@ -87,6 +91,11 @@ public class UIOverviewPage extends SplitPane {
             if (!key.isEmpty())
                 key = key + " (" + entry.getValue().m_Names.get(0) + ")";
             countryCodes.add(key);
+        }
+        
+        ObservableList<String> prizeCategories = FXCollections.observableArrayList();
+        for (PrizeCategory category : PrizeCategory.values()) {
+            prizeCategories.add(category.toString());
         }
         
         // Build filterPane UI elements.
@@ -251,7 +260,7 @@ public class UIOverviewPage extends SplitPane {
         prizeCategoryListView.setPrefHeight(120.0);
         prizeCategoryListView.setPrefWidth(200.0);
         prizeCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        prizeCategoryListView.setItems(FXCollections.observableArrayList(PrizeCategory.values()));
+        prizeCategoryListView.setItems(prizeCategories);
 
         affiliationTextField.setLayoutX(70.0);
         affiliationTextField.setLayoutY(570.0);
@@ -268,6 +277,14 @@ public class UIOverviewPage extends SplitPane {
         searchButton.setMnemonicParsing(false);
         searchButton.setText("Search");
         searchButton.setFont(fontDefault18);
+        searchButton.setOnMouseClicked((MouseEvent pEvent) -> {
+            if (pEvent.getButton() == MouseButton.PRIMARY) {
+                // TODO: Update displayPane, populate with laureates.
+                ArrayList<Laureate> laureates = GetLaureates();
+                for (Laureate laureate : laureates) //test code.
+                    System.out.println(laureate.toString());
+            }
+        });
 
         // Build displayPane UI elements.
         displayPane.setMinHeight(0.0);
@@ -281,7 +298,7 @@ public class UIOverviewPage extends SplitPane {
         AnchorPane.setTopAnchor(displayPage, 0.0);
         displayPage.setLayoutX(76.0);
         displayPage.setLayoutY(62.0);
-        displayPage.setPageCount(3);
+        displayPage.setPageCount(1);
         displayPage.setPrefHeight(738.0);
         displayPage.setPrefWidth(810.0);
 
@@ -311,5 +328,91 @@ public class UIOverviewPage extends SplitPane {
         // Populate displayPane.
         displayPane.getChildren().add(displayPage);
         getItems().add(displayPane);
+    }
+    
+    public ArrayList<Laureate> GetLaureates() {
+        // Determine which category to show.
+        ArrayList<PrizeCategory> validCategories = new ArrayList<>();
+        ObservableList<String> selectedCategories = prizeCategoryListView.getSelectionModel().getSelectedItems();
+        selectedCategories.forEach((String pCategoryName) -> {
+            validCategories.add(PrizeCategory.valueOf(pCategoryName));
+        });
+        
+        // Determine which country codes to show.
+        ArrayList<String> validCountryCodes = new ArrayList<>();
+        ObservableList<String> selectedCountryCodes = countryCodeListView.getSelectionModel().getSelectedItems();
+        selectedCountryCodes.forEach((String pCountryName) -> {
+            pCountryName = (String)pCountryName;
+            if (!pCountryName.isEmpty()) {
+                validCountryCodes.add(pCountryName.split(" ")[0]);
+            }
+            else { validCountryCodes.add(pCountryName); }
+        });
+        
+        // Determine which genders to search for.
+        boolean searchMen = genderCheckbox_Male.isSelected();
+        boolean searchWomen = genderCheckbox_Female.isSelected();
+        // boolean searchOrgs = genderCehckbox_Organization.isSelected();
+        if (!searchMen && !searchWomen /*&& !searchOrgs*/) { // If neither box is checked, it is assumed the user wants to allow all genders.
+            searchMen = true;
+            searchWomen = true;
+            //searchOrgs = true;
+        }
+        
+        // Determine which people apply to the given filters.
+        ArrayList<Laureate> laureates = new ArrayList<>();
+        for (Prize prize : prizeList) {
+            // Check category.
+            if (!selectedCategories.isEmpty()) {
+                boolean categoryMatch = false;
+                for (PrizeCategory category : validCategories) {
+                    if (category == prize.m_Category) {
+                        categoryMatch = true;
+                        break;
+                    }
+                }
+                if (!categoryMatch) continue; // Skip if no category match.
+            }
+            
+            // Check year range.
+            if (prize.m_Year > (int)yearMaxSlider.getValue() || prize.m_Year < (int)yearMinSlider.getValue()) continue;
+            
+            // Check if the laureate should be added to the arraylist.
+            for (LaureateEntry entry : prize.m_Laureates) {
+                // Check for country code match.
+                boolean countryCodeMatch = false;
+                if (!selectedCountryCodes.isEmpty()) {
+                    for (String countryCode : validCountryCodes) {
+                        if (entry.m_Laureate.m_BornCountry.m_Code.compareTo(countryCode) == 0
+                            || entry.m_Laureate.m_DeathCountry.m_Code.compareTo(countryCode) == 0
+                        ) {
+                            countryCodeMatch = true;
+                            break;
+                        }
+                    }
+                }
+                else { countryCodeMatch = true; }
+                
+                // Check for gender match.
+                boolean genderMatch = false;
+                if (searchMen || searchWomen /*|| searchOrgs*/) {
+                    if ((searchMen && entry.m_Laureate.m_Gender == Gender.MALE)
+                            || (searchWomen && entry.m_Laureate.m_Gender == Gender.FEMALE)
+                            /*|| (searchOrgs && entry.m_Laureate.m_Gender == Gender.ORGANIZATION)*/
+                    ) genderMatch = true;
+                }
+                else { genderMatch = true; } // No genders selected, automatic match.
+                
+                // Check for affiliation match.
+                String affiliationEntry = affiliationTextField.getCharacters().toString();
+                boolean affiliationMatch = affiliationEntry.isEmpty();
+                //TODO: affiliation match checking.
+                
+                if (countryCodeMatch && genderMatch && affiliationMatch)
+                    laureates.add(entry.m_Laureate);
+            }
+        }
+        
+        return laureates;
     }
 }
