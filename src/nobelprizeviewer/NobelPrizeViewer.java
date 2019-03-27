@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nobelprizeviewer;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.application.*;
+import javafx.scene.*;
+import javafx.stage.*;
+
+import nobelprizeviewer.Views.UIOverviewPage;
 
 import com.google.gson.*;
 
@@ -32,11 +28,13 @@ public class NobelPrizeViewer extends Application {
         // Initialize JSON data.
         InitializeData();
         
-        // Build UI.
-        StackPane root = new StackPane();
-
-        Scene scene = new Scene(root, 300, 250);
+        // Build UIOverviewPage.
+        UIOverviewPage uiOverviewPage = new UIOverviewPage();
+        uiOverviewPage.Initialize(LAUREATES, PRIZES, COUNTRY_MAP);
         
+        // Build UI overview scene.
+        Scene scene = new Scene(uiOverviewPage, 1024, 800);
+
         pPrimaryStage.setTitle("Nobel prize viewer");
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
