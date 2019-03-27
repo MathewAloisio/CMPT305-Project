@@ -29,15 +29,15 @@ public class Laureate {
      * @param pID - The database ID of the laureate in the Nobel prize database.
      * @param pFirstName - The first name of the laureate.
      * @param pLastName  - The last name of the laureate.
-     * @param pBornDate
-     * @param pBornCity
-     * @param pBornCountry
+     * @param pBornDate - The birth date of the laureate.
+     * @param pBornCity - The birth city of the laureate.
+     * @param pBornCountry - The birth country of the laureate.
      * @param pBornCountryNameID - The position of the country's name in pBornCounrty.m_Names[].
-     * @param pDeathDate
-     * @param pDeathCity
-     * @param pDeathCountry
+     * @param pDeathDate - The date the laureate died in.
+     * @param pDeathCity - The city the laureate died in.
+     * @param pDeathCountry - The country the laureate died in.
      * @param pDeathCountryNameID - The position of the country's name in pDeathCountry.m_Names[].
-     * @param pGender 
+     * @param pGender - The gender of the laureate
      */
     public Laureate(int pID, String pFirstName, String pLastName, Date pBornDate, String pBornCity, Country pBornCountry, int pBornCountryNameID, Date pDeathDate, String pDeathCity, Country pDeathCountry, int pDeathCountryNameID, Gender pGender){
         m_DatabaseID = pID;
