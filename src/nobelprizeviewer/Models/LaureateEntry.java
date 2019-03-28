@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
 /**
  * For Laureate entries in the Prize class.
@@ -15,7 +15,7 @@ public class LaureateEntry {
         public final String m_Motivation; // The motiviation for giving this laureate a share in the prize.
         
         /**
-         * 
+         * Constructor for a LaureateEntry
          * @param pLaureate - The laureate associated with this entry.
          * @param pShare - The # of shares out of 10 this laureate was awarded of this prize.
          * @param pMotivation - The motivation for giving this laureate a share in the prize.

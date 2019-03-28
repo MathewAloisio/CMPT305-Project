@@ -1,5 +1,6 @@
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
+import nobelprizeviewer.Models.LaureateEntry;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,6 @@ import java.util.ArrayList;
  * @author Mathew Aloisio
  */
 public class Prize {
-    // Prize class.
     public final int m_Year;
     public final PrizeCategory m_Category;
     public final String m_Motivation;
@@ -51,6 +51,10 @@ public class Prize {
         return null;
     }
     
+    /**
+     * String representation of the prize
+     * @return String containing the year, category, motivation, and laureates of a prize
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -1,5 +1,6 @@
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
+import nobelprizeviewer.Models.Country;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class Laureate {
     }
     
     /**
-     * Checks if this Laureate is a person.
+     * Checks if this laureate is a person.
      * @return true if the Laureate is a person, otherwise false.
      */
     public boolean IsPerson() {
@@ -110,7 +111,11 @@ public class Laureate {
         
         return null;
     }
-
+    
+    /**
+     * String representation of a laureate
+     * @return First and last name of the laureate
+     */
     @Override
     public String toString() {
         return m_FirstName + ' ' + m_LastName;

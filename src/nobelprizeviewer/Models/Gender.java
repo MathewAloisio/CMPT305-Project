@@ -1,4 +1,4 @@
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
 /**
  * A Gender enumerate to assign a scoped type to genders.

@@ -11,6 +11,7 @@ import javafx.collections.*;
 import javafx.beans.value.ObservableValue;
 
 import nobelprizeviewer.*;
+import nobelprizeviewer.Models.*;
 
 public class UIOverviewPage extends SplitPane {
     protected final AnchorPane filterPane;

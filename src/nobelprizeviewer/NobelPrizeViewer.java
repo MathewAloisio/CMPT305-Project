@@ -1,13 +1,14 @@
 package nobelprizeviewer;
 
+import nobelprizeviewer.Models.*;
+import nobelprizeviewer.Views.UIOverviewPage;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.stage.*;
-
-import nobelprizeviewer.Views.UIOverviewPage;
 
 import com.google.gson.*;
 
@@ -35,7 +36,7 @@ public class NobelPrizeViewer extends Application {
         // Build UI overview scene.
         Scene scene = new Scene(uiOverviewPage, 1024, 800);
 
-        pPrimaryStage.setTitle("Nobel prize viewer");
+        pPrimaryStage.setTitle("Nobel Prize Viewer");
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
     }
@@ -51,7 +52,7 @@ public class NobelPrizeViewer extends Application {
         JsonObject prizeData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/prize.json");
         System.out.println(" DONE!");
         
-        //TODO: Change dialogtext to parsiing JSON data...
+        //TODO: Change dialogtext to parsing JSON data...
         
         // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
@@ -62,11 +63,12 @@ public class NobelPrizeViewer extends Application {
     }
     
     /**
-     *  Given a JsonObject of country data, generates a hash map
+     * Given a JsonObject of country data, generates a hash map
      * where the country code is the key and the value is an ArrayList
      * of the different names it goes by.
      * @param pData - The JsonObject containing the country data.
-     * @return HashMap with all country's keys are the country codes.
+     * @return HashMap with all country's keys as the country codes and country
+     * names as values.
      */
     public static HashMap<String, Country> ParseCountries(JsonObject pData) {
         HashMap<String, Country> map = new HashMap<>();
