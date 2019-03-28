@@ -1,8 +1,13 @@
 package nobelprizeviewer.Models;
 
-import nobelprizeviewer.Models.Country;
+import GoogleImageSearch.GoogleImageSearch;
+
+import java.io.IOException;
+
 import java.util.Date;
 import java.util.ArrayList;
+
+import java.awt.image.BufferedImage;
 
 /**
  * A Laureate structured like the Nobel Prize JSON database's laureate.
@@ -24,7 +29,7 @@ public class Laureate {
     public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 laureate can win multiple prizes.
     // NOTE: Shares per-award and motivation for giving each laureate an award
     //      is done in the Prize class.
-    
+
     /**
      * Constructs a new instance of a Laureate.
      * @param pID - The database ID of the laureate in the Nobel prize database.
@@ -53,7 +58,7 @@ public class Laureate {
         m_DeathCountry = pDeathCountry;
         m_DeathCountryNameID = pDeathCountryNameID;
         m_Gender = pGender;
-        
+
         m_Prizes = new ArrayList<>();
     }
     
@@ -63,6 +68,23 @@ public class Laureate {
      */
     public boolean IsPerson() {
         return m_FirstName.length() + m_LastName.length() > 0;
+    }
+    
+    /**
+     * Uses GoogleImageSearch to get a BufferedImage of this laureate from google.
+     * @return BufferedImage the image, or null.
+     */
+    public BufferedImage GetBufferedImage() {
+        // Load image.
+        BufferedImage image = null;   
+        try {
+            image = GoogleImageSearch.FindImage(toString());
+        }
+        catch (IOException pException) {
+            System.out.println("IOException! Failed to find image @ \"" + pException.toString() + "\".");
+        }
+
+        return image;
     }
     
     /**

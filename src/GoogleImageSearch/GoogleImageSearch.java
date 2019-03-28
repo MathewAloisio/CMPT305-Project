@@ -1,4 +1,4 @@
-package GoogleImageTest;
+package GoogleImageSearch;
 
 import java.io.IOException;
 
