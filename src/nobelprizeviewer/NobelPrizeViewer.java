@@ -16,7 +16,8 @@ import JSONParser.*;
 import com.google.gson.JsonElement;
 
 /**
- *
+ * Class for fetching JSON data from the API, converting it to Java classes, 
+ * and initializing views.
  * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class NobelPrizeViewer extends Application {
@@ -42,6 +43,9 @@ public class NobelPrizeViewer extends Application {
     }
     
     // Section: JSON data parsing.
+    /**
+     * Get JSON data from the API and parse it
+     */
     private static void InitializeData() {
         //TODO: Fetching JSON data loading dialog...
         
@@ -63,15 +67,15 @@ public class NobelPrizeViewer extends Application {
     }
     
     /**
-     * Given a JsonObject of country data, generates a hash map
-     * where the country code is the key and the value is an ArrayList
-     * of the different names it goes by.
+     * Given a JsonObject of country data, generates a hash map where
+     * the country code is the key and the value is the Country for that key
      * @param pData - The JsonObject containing the country data.
      * @return HashMap with all country's keys as the country codes and country
      * names as values.
      */
     public static HashMap<String, Country> ParseCountries(JsonObject pData) {
         HashMap<String, Country> map = new HashMap<>();
+        
         for (JsonElement element : pData.get("countries").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
             String countryCode = obj.get("code").getAsString();
@@ -91,15 +95,16 @@ public class NobelPrizeViewer extends Application {
     }
     
     /**
-     * 
+     * Given a JsonObject of laureate data and a Map of the countries, generates
+     * a list containing the laureates
      * @param pData - The JsonObject containing the laureate data.
      * @param pCountries - A map of valid country-codes and countries.
-     * @return 
+     * @return ArrayList with all the laureates
      */
     public static ArrayList<Laureate> ParseLaureates(JsonObject pData, HashMap<String, Country> pCountries) {
         ArrayList<Laureate> list = new ArrayList<>();
         
-         for (JsonElement element : pData.get("laureates").getAsJsonArray()) {
+        for (JsonElement element : pData.get("laureates").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
             String birthCountryName = obj.has("bornCountry") ? obj.get("bornCountry").getAsString() : "";
             String deathCountryName = obj.has("diedCountry") ? obj.get("diedCountry").getAsString() : "";
@@ -141,8 +146,16 @@ public class NobelPrizeViewer extends Application {
          }
         
         return list;
-    }
+    }   
     
+    /**
+     * Given a JsonObject of prize data and a list of laureates, generates a 
+     * list of prizes
+     * @param pData - The JsonObject containing the prize data
+     * @param pLaureates - List containing the laureates
+     * @return ArrayList with all the prizes, where each prize has a year, category,
+     * motivation, and list of awardees
+     */
     public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates) {
         ArrayList<Prize> list = new ArrayList<>();
 
