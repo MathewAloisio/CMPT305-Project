@@ -10,7 +10,6 @@ import javafx.scene.input.*;
 import javafx.collections.*;
 import javafx.beans.value.ObservableValue;
 
-import nobelprizeviewer.*;
 import nobelprizeviewer.Models.*;
 
 public class UIOverviewPage extends SplitPane {
@@ -105,8 +104,8 @@ public class UIOverviewPage extends SplitPane {
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
-        setPrefHeight(800.0);
         setPrefWidth(1280.0);
+        setPrefHeight(800.0);
 
         filterPane.setMinHeight(0.0);
         filterPane.setMinWidth(0.0);

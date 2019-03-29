@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document;
 /**
  * Modified version of Brian Brookewell's GoogleImageSearch class.
  * The class uses jsoup to get images from a google image search.
- * @author Brian Brookewell
+ * @author Brian Brookewell, modified for CMPT 305 project by students.
  */
 public class GoogleImageSearch {
     /**
@@ -42,8 +42,6 @@ public class GoogleImageSearch {
         start = body.indexOf("src=\"", start) + 4;
         int finish = body.indexOf("\"", start+1);
 
-        System.out.println (body.substring(start + 1, finish));
-        
         URL imageURL = new URL(body.substring(start + 1, finish));
 
         BufferedImage image = ImageIO.read(imageURL);

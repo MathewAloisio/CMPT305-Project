@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.ArrayList;
 
 import java.awt.image.BufferedImage;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 /**
  * A Laureate structured like the Nobel Prize JSON database's laureate.
@@ -72,19 +74,21 @@ public class Laureate {
     
     /**
      * Uses GoogleImageSearch to get a BufferedImage of this laureate from google.
-     * @return BufferedImage the image, or null.
+     * Use the ImageView type to display and resize images.
+     * @return Image the image, or null.
      */
-    public BufferedImage GetBufferedImage() {
-        // Load image.
-        BufferedImage image = null;   
+    public Image GetImage() {
+        // Load buffered image.
+        BufferedImage bufferedImage = null;   
         try {
-            image = GoogleImageSearch.FindImage(toString());
+            bufferedImage = GoogleImageSearch.FindImage(toString());
         }
         catch (IOException pException) {
-            System.out.println("IOException! Failed to find image @ \"" + pException.toString() + "\".");
+            System.out.println("IOException! Failed to find image for \"" + toString() + "\".\n" +  pException.toString());
         }
-
-        return image;
+        
+        // Create and return javaFX image.
+        return bufferedImage != null ? SwingFXUtils.toFXImage(bufferedImage, null) : null;
     }
     
     /**
