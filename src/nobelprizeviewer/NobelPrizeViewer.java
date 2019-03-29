@@ -1,7 +1,8 @@
 package nobelprizeviewer;
 
 import nobelprizeviewer.Models.*;
-import nobelprizeviewer.Views.UIOverviewPage;
+import nobelprizeviewer.Views.*;
+import nobelprizeviewer.Controllers.*;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.stage.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
 
 import com.google.gson.*;
 
@@ -26,7 +29,7 @@ public class NobelPrizeViewer extends Application {
     public static ArrayList<Prize> PRIZES;
     
     @Override
-    public void start(Stage pPrimaryStage) {
+    public void start(Stage pPrimaryStage) throws Exception {
         // Initialize JSON data.
         InitializeData();
         
@@ -36,6 +39,7 @@ public class NobelPrizeViewer extends Application {
         
         // Build UI overview scene.
         Scene scene = new Scene(uiOverviewPage, 1024, 800);
+        Scene biographyScene = getBiographyPageScene();
 
         pPrimaryStage.setTitle("Nobel Prize Viewer");
         pPrimaryStage.setScene(scene);
@@ -193,6 +197,26 @@ public class NobelPrizeViewer extends Application {
         return list;
     }
     // End of section: JSON data parsing.
+    
+    // Scene Parsing
+    private Scene getBiographyPageScene() throws Exception {
+        // Get the FXML File
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("Views/BiographyPage.fxml")
+        );
+        
+        Laureate testLaureate = LAUREATES.get(99);
+        
+        // Get the Controller
+        BiographyPageController biographyPageController = new BiographyPageController(testLaureate);
+        
+        // Set the FXML's controller
+        loader.setController(biographyPageController);
+        
+        SplitPane root = loader.load();
+        
+        return new Scene(root);
+    }
 
     /**
      * @param pArgs the command line arguments
