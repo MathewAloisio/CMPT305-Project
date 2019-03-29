@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.3090909090909091" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="992.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<SplitPane dividerPositions="0.3090909090909091" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -28,7 +28,7 @@
                   <Image url="@../Assets/einstein-image.jpg" />
                </image>
             </ImageView>
-            <Label layoutX="9.0" layoutY="30.0" text="Result _ of _">
+            <Label fx:id="resultsLabel" layoutX="9.0" layoutY="30.0" text="Result _ of _">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -46,7 +46,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="201.0" text="Born in  &lt;birth place&gt; in the year &lt;birth year&gt;">
+            <Label fx:id="birthLabel" layoutX="25.0" layoutY="201.0" text="Born in  &lt;birth place&gt; in the year &lt;birth year&gt;">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -56,7 +56,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="335.0" layoutY="201.0" text="Died in  &lt;death place&gt; in the year &lt;death year&gt;">
+            <Label fx:id="deathLabel" layoutX="335.0" layoutY="201.0" text="Died in  &lt;death place&gt; in the year &lt;death year&gt;">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -66,7 +66,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="24.0" layoutY="151.0" text="id">
+            <Label fx:id="idLabel" layoutX="24.0" layoutY="151.0" text="id">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -76,7 +76,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="165.0" layoutY="151.0" text="Gender">
+            <Label fx:id="genderLabel" layoutX="165.0" layoutY="151.0" text="Gender">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -86,7 +86,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="91.0" text="first">
+            <Label fx:id="firstNameLabel" layoutX="25.0" layoutY="91.0" text="first">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -96,7 +96,7 @@
                   <Font name="Helvetica" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="165.0" layoutY="91.0" text="last">
+            <Label fx:id="lastNameLabel" layoutX="165.0" layoutY="91.0" text="last">
                <font>
                   <Font name="Helvetica" size="13.0" />
                </font>
@@ -106,7 +106,7 @@
                   <Font name="Helvetica" size="28.0" />
                </font>
             </Label>
-            <Hyperlink layoutX="23.0" layoutY="298.0" text="Link to Prize #1" />
+            <Hyperlink layoutX="21.0" layoutY="298.0" text="Link to Prize #1" />
             <Label layoutX="334.0" layoutY="257.0" text="Prizes">
                <font>
                   <Font name="Helvetica" size="28.0" />
