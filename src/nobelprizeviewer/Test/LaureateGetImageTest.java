@@ -5,16 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import nobelprizeviewer.Models.Country;
-import nobelprizeviewer.Models.Laureate;
-import nobelprizeviewer.Models.LaureateEntry;
-import nobelprizeviewer.Models.Prize;
+
+import nobelprizeviewer.Views.UILaureateButton;
+import nobelprizeviewer.Models.*;
 import nobelprizeviewer.Util;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.*;
-import javafx.scene.image.*;
 import javafx.scene.layout.AnchorPane;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -34,20 +32,11 @@ public class LaureateGetImageTest extends Application {
         // Load & parse JSON data.
         InitializeData();
         
-        // Test Laureate.GetBufferedImage.
-        Laureate laureate = LAUREATES.get(0);
-        Image image = laureate.GetImage();
-        if (image != null) {
-            System.out.println("Laureate name: " + laureate.toString());
-            System.out.println("Image size: " + image.getWidth() + "x" + image.getHeight());
-        }
-        else { System.out.println("Failed to find an image!"); }
-        
         // Create UI.
-        InitializeUI(pPrimaryStage, image);
+        InitializeUI(pPrimaryStage, LAUREATES.get(0));
     }
     
-    public static void InitializeUI(Stage pPrimaryStage, Image pImage) {
+    public static void InitializeUI(Stage pPrimaryStage, Laureate pLaureate) {
         // Create anchor pane.
         ANCHOR_PANE = new AnchorPane();
         ANCHOR_PANE.setMaxHeight(USE_PREF_SIZE);
@@ -55,20 +44,18 @@ public class LaureateGetImageTest extends Application {
         ANCHOR_PANE.setMinHeight(USE_PREF_SIZE);
         ANCHOR_PANE.setMinWidth(USE_PREF_SIZE);
         ANCHOR_PANE.setPrefWidth(248.0);
-        ANCHOR_PANE.setPrefHeight(324.0);
+        ANCHOR_PANE.setPrefHeight(210.0);
         
-        // Create imageView to put on the AnchorPane.
-        ImageView imageView = new ImageView();
-        imageView.setImage(pImage);
-        imageView.setFitWidth(248.0);
-        imageView.setFitHeight(324.0);
+        // Create UILaureateButton to put on the AnchorPane.
+        UILaureateButton laureateButton = new UILaureateButton(pLaureate, null);
+        laureateButton.Initialize();
         
-        ANCHOR_PANE.getChildren().add(imageView);
+        ANCHOR_PANE.getChildren().add(laureateButton);
         
         // Build UI overview scene.
-        Scene scene = new Scene(ANCHOR_PANE, 248, 324);
+        Scene scene = new Scene(ANCHOR_PANE, 246, 210);
 
-        pPrimaryStage.setTitle("Laureate GetImage Test");
+        pPrimaryStage.setTitle("LaureateGetImageTest");
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
     }

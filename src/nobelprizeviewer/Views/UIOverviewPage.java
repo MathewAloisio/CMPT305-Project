@@ -272,6 +272,12 @@ public class UIOverviewPage extends SplitPane {
         affiliationText.setText("Affiliation");
         affiliationText.setFont(fontBold18);
         
+        displayPage.setLayoutX(76.0);
+        displayPage.setLayoutY(62.0);
+        //displayPage.setPageCount(5);
+        displayPage.setPrefHeight(738.0);
+        displayPage.setPrefWidth(810.0);
+        
         searchButton.setLayoutX(100.0);
         searchButton.setLayoutY(610.0);
         searchButton.setMnemonicParsing(false);
@@ -280,12 +286,13 @@ public class UIOverviewPage extends SplitPane {
         searchButton.setOnMouseClicked((MouseEvent pEvent) -> {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
                 // TODO: Update displayPane, populate with laureates.
-                ArrayList<Laureate> laureates = GetLaureates();
-                for (Laureate laureate : laureates) //test code.
-                    System.out.println(laureate.toString());
+                displayPage.setStyle("-fx-border-color:red;");
+                displayPage.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
+                //ArrayList<Laureate> laureates = GetLaureates();
+                /*for (Laureate laureate : laureates) //test code.
+                    System.out.println(laureate.toString());*/
             }
         });
-
         // Build displayPane UI elements.
         displayPane.setMinHeight(0.0);
         displayPane.setMinWidth(0.0);
@@ -296,11 +303,7 @@ public class UIOverviewPage extends SplitPane {
         AnchorPane.setLeftAnchor(displayPage, 0.0);
         AnchorPane.setRightAnchor(displayPage, 0.0);
         AnchorPane.setTopAnchor(displayPage, 0.0);
-        displayPage.setLayoutX(76.0);
-        displayPage.setLayoutY(62.0);
-        displayPage.setPageCount(1);
-        displayPage.setPrefHeight(738.0);
-        displayPage.setPrefWidth(810.0);
+    
 
         // Populate filterPane.
         filterPane.getChildren().add(genderText);
@@ -326,8 +329,33 @@ public class UIOverviewPage extends SplitPane {
         getItems().add(filterPane);
         
         // Populate displayPane.
-        displayPane.getChildren().add(displayPage);
+        displayPane.getChildren().addAll(displayPage);
         getItems().add(displayPane);
+    }
+    
+    /**
+     * Method to calculate amount of output in a page
+     * @return 
+     */
+    public int itemsPerPage() {
+        return 10;
+    }
+    
+    /**
+     * Create a page based on the filters selected in the overview page
+     * @param pageIndex
+     * @return 
+     */
+    public VBox createPage(int pageIndex) { 
+        ArrayList<Laureate> laureates = GetLaureates();
+        VBox box = new VBox(10); //Spacing of the results
+        int page = pageIndex * itemsPerPage();
+        for (int i = page; i < page + itemsPerPage(); i++) {
+            //UILaureateButton laureate = new UILaureateButton(laureates.get(i),this);
+            Label laureate = new Label(laureates.get(i).toString());
+            box.getChildren().add(laureate);
+        }
+        return box;
     }
     
     public ArrayList<Laureate> GetLaureates() {
@@ -411,8 +439,7 @@ public class UIOverviewPage extends SplitPane {
                 if (countryCodeMatch && genderMatch && affiliationMatch)
                     laureates.add(entry.m_Laureate);
             }
-        }
-        
+        }  
         return laureates;
     }
 }
