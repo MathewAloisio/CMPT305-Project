@@ -1,5 +1,7 @@
 package nobelprizeviewer.Views;
 
+import ImageCache.ImageCache;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -38,6 +40,10 @@ public class UIOverviewPage extends SplitPane {
     protected final Pagination displayPage;
     
     protected ArrayList<Prize> prizeList;
+    
+    public static final int LAUREATES_PER_ROW = 3;
+    public static final int LAUREATES_PER_COLUMN = 3;
+    public static final int LAUREATES_PER_PAGE = LAUREATES_PER_ROW * LAUREATES_PER_COLUMN;
 
     public UIOverviewPage() {
         filterPane = new AnchorPane();
@@ -171,8 +177,8 @@ public class UIOverviewPage extends SplitPane {
         yearMinSlider.setMin(minYear);
         yearMinSlider.setValue(minYear);
         yearMinSlider.setMajorTickUnit(1);
-        yearMinSlider.setMajorTickUnit(1);
-        yearMinSlider.setBlockIncrement(1);
+        yearMinSlider.setMinorTickCount(1);
+        yearMinSlider.setBlockIncrement(0.1);
         yearMinSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMinSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
@@ -183,8 +189,8 @@ public class UIOverviewPage extends SplitPane {
         yearMaxSlider.setMin(minYear);
         yearMaxSlider.setValue(maxYear);
         yearMaxSlider.setMajorTickUnit(1);
-        yearMaxSlider.setMajorTickUnit(1);
-        yearMaxSlider.setBlockIncrement(1);
+        yearMaxSlider.setMinorTickCount(1);
+        yearMaxSlider.setBlockIncrement(0.1);
         yearMaxSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMaxSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
@@ -197,7 +203,7 @@ public class UIOverviewPage extends SplitPane {
         countryCodeListSelectAll.setOnMouseClicked((MouseEvent pEvent) -> {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
                 // Select all country codes.
-                countryCodeListView.getSelectionModel().selectAll();
+                countryCodeListView.getSelectionModel().selectAll();             
             }
         });
         
@@ -274,9 +280,13 @@ public class UIOverviewPage extends SplitPane {
         
         displayPage.setLayoutX(76.0);
         displayPage.setLayoutY(62.0);
-        //displayPage.setPageCount(5);
         displayPage.setPrefHeight(738.0);
         displayPage.setPrefWidth(810.0);
+        displayPage.setOnMouseClicked((MouseEvent pEvent) -> {
+            for (int i = 0; i < LAUREATES_PER_PAGE; ++i) { // Update the ImageCache multiple times.
+                ImageCache.Update();
+            }
+        });
         
         searchButton.setLayoutX(100.0);
         searchButton.setLayoutY(610.0);
@@ -285,12 +295,15 @@ public class UIOverviewPage extends SplitPane {
         searchButton.setFont(fontDefault18);
         searchButton.setOnMouseClicked((MouseEvent pEvent) -> {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
-                // TODO: Update displayPane, populate with laureates.
+                // Update displayPane, populate with laureates.
                 displayPage.setStyle("-fx-border-color:red;");
-                displayPage.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
-                //ArrayList<Laureate> laureates = GetLaureates();
-                /*for (Laureate laureate : laureates) //test code.
-                    System.out.println(laureate.toString());*/
+                ArrayList<Laureate> laureates = GetLaureates();
+                displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(pLaureates, pPageIndex));
+                displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
+                
+                for (int i = 0; i < LAUREATES_PER_PAGE; ++i) { // Update the ImageCache multiple times.
+                    ImageCache.Update();
+                }
             }
         });
         // Build displayPane UI elements.
@@ -334,28 +347,30 @@ public class UIOverviewPage extends SplitPane {
     }
     
     /**
-     * Method to calculate amount of output in a page
-     * @return 
-     */
-    public int itemsPerPage() {
-        return 10;
-    }
-    
-    /**
      * Create a page based on the filters selected in the overview page
-     * @param pageIndex
-     * @return 
+     * @param pLaureates
+     * @param pPageIndex
+     * @return GridBox - UI element containing the UILaureateImages for a given page.
      */
-    public VBox createPage(int pageIndex) { 
-        ArrayList<Laureate> laureates = GetLaureates();
-        VBox box = new VBox(10); //Spacing of the results
-        int page = pageIndex * itemsPerPage();
-        for (int i = page; i < page + itemsPerPage(); i++) {
-            //UILaureateButton laureate = new UILaureateButton(laureates.get(i),this);
-            Label laureate = new Label(laureates.get(i).toString());
-            box.getChildren().add(laureate);
+    public GridPane CreatePage(ArrayList<Laureate> pLaureates, int pPageIndex) { 
+        GridPane pane = new GridPane();
+        int minLaureateIndex = pPageIndex * LAUREATES_PER_PAGE;
+        for (int i = minLaureateIndex; i < minLaureateIndex + LAUREATES_PER_PAGE; ++i) {
+            // Create laureate button.
+            UILaureateButton laureateButton = new UILaureateButton(pLaureates.get(i), this);
+            laureateButton.Initialize();
+            
+            // Position the laureate button in the GridPane.
+            int column = i - minLaureateIndex;
+            int row = 0;
+            while (column > (LAUREATES_PER_ROW - 1)) {
+                column -= LAUREATES_PER_ROW;
+                ++row;
+            }
+            GridPane.setConstraints(laureateButton, column, row);
+            pane.getChildren().add(laureateButton);
         }
-        return box;
+        return pane;
     }
     
     public ArrayList<Laureate> GetLaureates() {

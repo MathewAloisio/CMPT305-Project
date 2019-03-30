@@ -1,14 +1,10 @@
 package nobelprizeviewer.Models;
 
-import GoogleImageSearch.GoogleImageSearch;
-
-import java.io.IOException;
+import ImageCache.*;
 
 import java.util.Date;
 import java.util.ArrayList;
 
-import java.awt.image.BufferedImage;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 /**
@@ -78,17 +74,7 @@ public class Laureate {
      * @return Image the image, or null.
      */
     public Image GetImage() {
-        // Load buffered image.
-        BufferedImage bufferedImage = null;   
-        try {
-            bufferedImage = GoogleImageSearch.FindImage(toString());
-        }
-        catch (IOException pException) {
-            System.out.println("IOException! Failed to find image for \"" + toString() + "\".\n" +  pException.toString());
-        }
-        
-        // Create and return javaFX image.
-        return bufferedImage != null ? SwingFXUtils.toFXImage(bufferedImage, null) : null;
+        return ImageCache.RequestImage(toString());
     }
     
     /**
