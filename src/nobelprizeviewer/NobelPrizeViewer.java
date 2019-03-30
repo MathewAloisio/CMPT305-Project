@@ -2,7 +2,6 @@ package nobelprizeviewer;
 
 import nobelprizeviewer.Models.*;
 import nobelprizeviewer.Views.*;
-import nobelprizeviewer.Controllers.*;
 
 import java.util.HashMap;
 import java.util.ArrayList;
