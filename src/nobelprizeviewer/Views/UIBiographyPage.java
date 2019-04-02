@@ -7,7 +7,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -34,18 +34,12 @@ public class UIBiographyPage extends SplitPane {
     protected final Label lastNameTitleLabel;
     protected final Label lastNameLabel;
     protected final Label prizesTitleLabel;
-    protected final FlowPane prizePane;
-    protected final Label prizeYearLabel;
-    protected final Label prizeCategoryLabel;
-    protected final Label prizeShareLabel;
-    protected final Label prizeMotivationLabel;
-    protected final Label prizeAffiliationsLabel;
+    protected final ScrollPane prizeScrollPane;
     
     protected final Stage primaryStage;
     protected final Scene overviewScene;
     
     public static final Font FONT_HELVETICA13 = new Font("Helvetica", 13.0);
-    public static final Font FONT_HELVETICA16 = new Font("Helvetica", 16.0);
     public static final Font FONT_HELVETICA20 = new Font("Helvetica", 20.0);
     public static final Font FONT_HELVETICA28 = new Font("Helvetica", 28.0);
 
@@ -72,12 +66,7 @@ public class UIBiographyPage extends SplitPane {
         lastNameTitleLabel = new Label();
         lastNameLabel = new Label();
         prizesTitleLabel = new Label();
-        prizePane = new FlowPane();
-        prizeYearLabel = new Label();
-        prizeCategoryLabel = new Label();
-        prizeShareLabel = new Label();
-        prizeMotivationLabel = new Label();
-        prizeAffiliationsLabel = new Label();
+        prizeScrollPane = new ScrollPane();
     }
     
     public void Initialize() {
@@ -128,7 +117,6 @@ public class UIBiographyPage extends SplitPane {
 
         birthLabel.setLayoutX(25.0);
         birthLabel.setLayoutY(201.0);
-        birthLabel.setText("Born in  <birth place> in the year <birth year>");
         birthLabel.setFont(FONT_HELVETICA13);
 
         deathTitleLabel.setLayoutX(335.0);
@@ -138,7 +126,6 @@ public class UIBiographyPage extends SplitPane {
 
         deathLabel.setLayoutX(335.0);
         deathLabel.setLayoutY(201.0);
-        deathLabel.setText("Died in  <death place> in the year <death year>");
         deathLabel.setFont(FONT_HELVETICA13);
 
         idTitleLabel.setLayoutX(23.0);
@@ -148,7 +135,6 @@ public class UIBiographyPage extends SplitPane {
 
         idLabel.setLayoutX(24.0);
         idLabel.setLayoutY(151.0);
-        idLabel.setText("id");
         idLabel.setFont(FONT_HELVETICA13);
 
         genderTitleLabel.setLayoutX(164.0);
@@ -158,7 +144,6 @@ public class UIBiographyPage extends SplitPane {
 
         genderLabel.setLayoutX(165.0);
         genderLabel.setLayoutY(151.0);
-        genderLabel.setText("Gender");
         genderLabel.setFont(FONT_HELVETICA13);
 
         firstNameTitleLabel.setLayoutX(24.0);
@@ -168,7 +153,6 @@ public class UIBiographyPage extends SplitPane {
 
         firstNameLabel.setLayoutX(25.0);
         firstNameLabel.setLayoutY(91.0);
-        firstNameLabel.setText("first");
         firstNameLabel.setFont(FONT_HELVETICA13);
 
         lastNameTitleLabel.setLayoutX(164.0);
@@ -178,7 +162,6 @@ public class UIBiographyPage extends SplitPane {
 
         lastNameLabel.setLayoutX(165.0);
         lastNameLabel.setLayoutY(91.0);
-        lastNameLabel.setText("last");
         lastNameLabel.setFont(FONT_HELVETICA13);
 
         prizesTitleLabel.setLayoutX(23.0);
@@ -186,28 +169,11 @@ public class UIBiographyPage extends SplitPane {
         prizesTitleLabel.setText("Prizes");
         prizesTitleLabel.setFont(FONT_HELVETICA28);
 
-        prizePane.setLayoutX(26.0);
-        prizePane.setLayoutY(302.0);
-        prizePane.setMaxWidth(USE_PREF_SIZE);
-        prizePane.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        prizePane.setPrefHeight(111.0);
-        prizePane.setPrefWidth(317.0);
-        prizePane.setStyle("-fx-border-color: black;");
-
-        prizeYearLabel.setText("Year: year");
-        prizeYearLabel.setFont(FONT_HELVETICA16);
-
-        prizeCategoryLabel.setText("Category: category");
-        prizeCategoryLabel.setFont(FONT_HELVETICA16);
-
-        prizeShareLabel.setText("Share: share");
-        prizeShareLabel.setFont(FONT_HELVETICA16);
-
-        prizeMotivationLabel.setText("Motivation: motivation");
-        prizeMotivationLabel.setFont(FONT_HELVETICA16);
-
-        prizeAffiliationsLabel.setText("Affiliations: affiliations separated by commas");
-        prizeAffiliationsLabel.setFont(FONT_HELVETICA16);
+        prizeScrollPane.setLayoutX(26.0);
+        prizeScrollPane.setLayoutY(302.0);
+        prizeScrollPane.setMaxWidth(USE_PREF_SIZE);
+        prizeScrollPane.setPrefHeight(212.0);
+        prizeScrollPane.setPrefWidth(600.0);
 
         imagePane.getChildren().add(backLink);
         imagePane.getChildren().add(imageView);
@@ -227,12 +193,7 @@ public class UIBiographyPage extends SplitPane {
         biographyPane.getChildren().add(lastNameTitleLabel);
         biographyPane.getChildren().add(lastNameLabel);
         biographyPane.getChildren().add(prizesTitleLabel);
-        prizePane.getChildren().add(prizeYearLabel);
-        prizePane.getChildren().add(prizeCategoryLabel);
-        prizePane.getChildren().add(prizeShareLabel);
-        prizePane.getChildren().add(prizeMotivationLabel);
-        prizePane.getChildren().add(prizeAffiliationsLabel);
-        biographyPane.getChildren().add(prizePane);
+        biographyPane.getChildren().add(prizeScrollPane);
         getItems().add(biographyPane);
     }
     
@@ -262,6 +223,11 @@ public class UIBiographyPage extends SplitPane {
         
         // Set laureate imageView.
         imageView.setImage(pImage);
+        
+        // Clear & fill prizeScrollPane.
+        UIPrizePane prizePane = new UIPrizePane();
+        prizePane.Initialize(pLaureate);
+        prizeScrollPane.setContent(prizePane);
     }
     
     public void BackToOverview() {

@@ -1,6 +1,5 @@
 package nobelprizeviewer.Models;
 
-import nobelprizeviewer.Models.LaureateEntry;
 import java.util.ArrayList;
 
 /**
