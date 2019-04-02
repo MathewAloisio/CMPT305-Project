@@ -1,6 +1,6 @@
 package nobelprizeviewer.Views;
 
-import ImageCache.ImageCache;
+import PageCache.PageCache;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -282,11 +282,6 @@ public class UIOverviewPage extends SplitPane {
         displayPage.setLayoutY(62.0);
         displayPage.setPrefHeight(738.0);
         displayPage.setPrefWidth(810.0);
-        displayPage.setOnMouseClicked((MouseEvent pEvent) -> {
-            for (int i = 0; i < LAUREATES_PER_PAGE; ++i) { // Update the ImageCache multiple times.
-                ImageCache.Update();
-            }
-        });
         
         searchButton.setLayoutX(100.0);
         searchButton.setLayoutY(610.0);
@@ -295,15 +290,14 @@ public class UIOverviewPage extends SplitPane {
         searchButton.setFont(fontDefault18);
         searchButton.setOnMouseClicked((MouseEvent pEvent) -> {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
+                // Reset the PageCache.
+                PageCache.Clear();
+                
                 // Update displayPane, populate with laureates.
                 displayPage.setStyle("-fx-border-color:red;");
                 ArrayList<Laureate> laureates = GetLaureates();
                 displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(pLaureates, pPageIndex));
                 displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
-                
-                for (int i = 0; i < LAUREATES_PER_PAGE; ++i) { // Update the ImageCache multiple times.
-                    ImageCache.Update();
-                }
             }
         });
         // Build displayPane UI elements.
@@ -353,7 +347,11 @@ public class UIOverviewPage extends SplitPane {
      * @return GridBox - UI element containing the UILaureateImages for a given page.
      */
     public GridPane CreatePage(ArrayList<Laureate> pLaureates, int pPageIndex) { 
-        GridPane pane = new GridPane();
+        GridPane pane = PageCache.RequestPage(pPageIndex);
+        if (pane != null)
+            return pane;
+        
+        pane = new GridPane();
         int minLaureateIndex = pPageIndex * LAUREATES_PER_PAGE;
         for (int i = minLaureateIndex; i < minLaureateIndex + LAUREATES_PER_PAGE; ++i) {
             // Create laureate button.
@@ -370,6 +368,10 @@ public class UIOverviewPage extends SplitPane {
             GridPane.setConstraints(laureateButton, column, row);
             pane.getChildren().add(laureateButton);
         }
+        
+        // Cache the pane.
+        PageCache.CachePage(pPageIndex, pane);
+        
         return pane;
     }
     
