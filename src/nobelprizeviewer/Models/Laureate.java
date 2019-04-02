@@ -96,7 +96,10 @@ public class Laureate {
      * @return m_BornCountry.m_Names.get(m_BornCountryNameID);
      */
     public String GetBornCountryName() {
-        return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
+        if (m_BornCountry.m_Names.size() > m_BornCountryNameID)
+            return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
+        
+        return "";
     }
     
     /**
@@ -104,7 +107,10 @@ public class Laureate {
      * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
      */
     public String GetDeathCountryName() {
-        return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
+        if (m_DeathCountry.m_Names.size() > m_DeathCountryNameID)
+            return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
+        
+        return "";
     }
     
     /**
