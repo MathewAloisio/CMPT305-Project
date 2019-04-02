@@ -3,17 +3,19 @@ package nobelprizeviewer.Views;
 import javafx.scene.text.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 
 import nobelprizeviewer.Models.*;
+import nobelprizeviewer.NobelPrizeViewer;
 
 public class UILaureateButton extends AnchorPane {
     protected final ImageView imageView;
     protected final Text nameLabel;
     protected final Laureate laureate; // Keep track of what laureate this button is for.
     protected final UIOverviewPage overviewPage; // Keep track of what overview page this button belongs to.
+    protected final Stage primaryStage;
     
     public static Font FONT_DEFAULT14 = new Font(14.0);
 
@@ -21,9 +23,11 @@ public class UILaureateButton extends AnchorPane {
      * A collection of an ImageView of a laureate's GetImage() and a Text label of their name.
      * Both elements can be clicked and will take you to the biography page for the given laureate.
      * @param pLaureate - The laureate to generate a UI button for.
+     * @param pPrimaryStage - The primary Stage object.
      * @param pOverviewPage - The overview page to pass to the biography page so we know what scene to return to.
      */
-    public UILaureateButton(Laureate pLaureate, UIOverviewPage pOverviewPage) {
+    public UILaureateButton(Laureate pLaureate, Stage pPrimaryStage, UIOverviewPage pOverviewPage) {
+        primaryStage = pPrimaryStage;
         imageView = new ImageView();
         nameLabel = new Text();
         
@@ -32,7 +36,7 @@ public class UILaureateButton extends AnchorPane {
     }
     
     /**
-     * Initialises the UI elements, separated from the constructor to avoid calling over-rideable methods in a constructor.
+     * Initializes the UI elements, separated from the constructor to avoid calling over-rideable methods in a constructor.
      */
     public void Initialize() {
         setMaxHeight(USE_PREF_SIZE);
@@ -75,6 +79,10 @@ public class UILaureateButton extends AnchorPane {
         if (pEvent.getButton() != MouseButton.PRIMARY)
             return;
         
-        //TODO: Go to the bigography page for 'laureate'.
+        // Go to the bigography page for 'laureate'.
+        if (primaryStage != null) {
+            ((UIBiographyPage)NobelPrizeViewer.BIOGRAPHY_SCENE.getRoot()).SetLaureate(imageView.getImage(), laureate);
+            primaryStage.setScene(NobelPrizeViewer.BIOGRAPHY_SCENE);
+        }
     }
 }

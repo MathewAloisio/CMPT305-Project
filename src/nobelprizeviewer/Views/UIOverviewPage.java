@@ -9,6 +9,7 @@ import javafx.scene.text.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.input.*;
+import javafx.stage.Stage;
 import javafx.collections.*;
 import javafx.beans.value.ObservableValue;
 
@@ -38,6 +39,7 @@ public class UIOverviewPage extends SplitPane {
     protected final Button searchButton;
     protected final AnchorPane displayPane;
     protected final Pagination displayPage;
+    protected final Stage primaryStage;
     
     protected ArrayList<Prize> prizeList;
     
@@ -45,7 +47,8 @@ public class UIOverviewPage extends SplitPane {
     public static final int LAUREATES_PER_COLUMN = 3;
     public static final int LAUREATES_PER_PAGE = LAUREATES_PER_ROW * LAUREATES_PER_COLUMN;
 
-    public UIOverviewPage() {
+    public UIOverviewPage(Stage pPrimaryStage) {
+        primaryStage = pPrimaryStage;
         filterPane = new AnchorPane();
         genderText = new Text();
         genderCheckbox_Male = new CheckBox();
@@ -359,7 +362,7 @@ public class UIOverviewPage extends SplitPane {
         int minLaureateIndex = pPageIndex * LAUREATES_PER_PAGE;
         for (int i = minLaureateIndex; i < minLaureateIndex + LAUREATES_PER_PAGE; ++i) {
             // Create laureate button.
-            UILaureateButton laureateButton = new UILaureateButton(pLaureates.get(i), this);
+            UILaureateButton laureateButton = new UILaureateButton(pLaureates.get(i), primaryStage, this);
             laureateButton.Initialize();
             
             // Position the laureate button in the GridPane.

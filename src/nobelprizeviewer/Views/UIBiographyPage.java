@@ -5,10 +5,13 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+
 import nobelprizeviewer.Models.Laureate;
 
 public class UIBiographyPage extends SplitPane {
@@ -95,6 +98,9 @@ public class UIBiographyPage extends SplitPane {
         backLink.setLayoutY(5.0);
         backLink.setText("Back to Results?");
         backLink.setFont(FONT_HELVETICA13);
+        backLink.setOnMouseClicked((MouseEvent pEvent) -> {
+            BackToOverview();
+        });
 
         imageView.setFitHeight(323.0);
         imageView.setFitWidth(263.0);
@@ -230,7 +236,7 @@ public class UIBiographyPage extends SplitPane {
         getItems().add(biographyPane);
     }
     
-    public void SetLaureate(Laureate pLaureate) {
+    public void SetLaureate(Image pImage, Laureate pLaureate) {
         // Update results label.
         resultsLabel.setText("Result of " + pLaureate.toString());
         
@@ -244,18 +250,18 @@ public class UIBiographyPage extends SplitPane {
         idLabel.setText(id);
         
         // Set Birth and Death labels        
-        String birthCountry = pLaureate.m_BornCountry.m_Names.get(0);
+        String birthCountry = pLaureate.GetBornCountryName();
         String birthDate = pLaureate.m_BornDate.toString();
         String birthYear = birthDate.substring(birthDate.length() - 4);
         birthLabel.setText("Born in " + birthCountry + " in the year " + birthYear);
         
-        String deathCountry = pLaureate.m_DeathCountry.m_Names.get(0);
+        String deathCountry = pLaureate.GetDeathCountryName();
         String deathDate = pLaureate.m_DeathDate.toString();
         String deathYear = deathDate.substring(birthDate.length() - 4);
         deathLabel.setText("Died in " + deathCountry + " in the year " + deathYear);
         
         // Set laureate imageView.
-        imageView.setImage(pLaureate.GetImage());
+        imageView.setImage(pImage);
     }
     
     public void BackToOverview() {

@@ -47,7 +47,7 @@ public class LaureateGetImageTest extends Application {
         ANCHOR_PANE.setPrefHeight(210.0);
         
         // Create UILaureateButton to put on the AnchorPane.
-        UILaureateButton laureateButton = new UILaureateButton(pLaureate, null);
+        UILaureateButton laureateButton = new UILaureateButton(pLaureate, null, null);
         laureateButton.Initialize();
         
         ANCHOR_PANE.getChildren().add(laureateButton);

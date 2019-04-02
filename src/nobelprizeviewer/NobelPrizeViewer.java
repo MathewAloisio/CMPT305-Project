@@ -31,14 +31,16 @@ public class NobelPrizeViewer extends Application {
         // Initialize JSON data.
         InitializeData();
         
-        // Build UIOverviewPage.
-        UIOverviewPage uiOverviewPage = new UIOverviewPage();
+        // Build UIOverviewPage and scene.
+        UIOverviewPage uiOverviewPage = new UIOverviewPage(pPrimaryStage);
         uiOverviewPage.Initialize(LAUREATES, PRIZES, COUNTRY_MAP);
-        
-        // Build UI overview scene.
         Scene scene = new Scene(uiOverviewPage, 1024, 800);
-        BIOGRAPHY_SCENE = new Scene(new UIBiographyPage(pPrimaryStage, scene));
-
+        
+        // Build UIBiographyPage and scene.
+        UIBiographyPage biographyPage = new UIBiographyPage(pPrimaryStage, scene);
+        biographyPage.Initialize();
+        BIOGRAPHY_SCENE = new Scene(biographyPage);
+        
         pPrimaryStage.setTitle("Nobel Prize Viewer");
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
