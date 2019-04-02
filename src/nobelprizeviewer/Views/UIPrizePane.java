@@ -11,7 +11,7 @@ import nobelprizeviewer.Models.Laureate;
 public class UIPrizePane extends AnchorPane {
     public UIPrizePane() {
         // Setup size and style.
-        setPrefHeight(106.0);
+        setPrefHeight(UIPrizeEntry.PANE_HEIGHT);
         setPrefWidth(598.0);
         setStyle("-fx-border-color: black;");
         setMinWidth(USE_PREF_SIZE);
@@ -23,9 +23,9 @@ public class UIPrizePane extends AnchorPane {
     public void Initialize(Laureate pLaureate) {
         // Set prefered height based on the laureate this was initialized with.
         if (!pLaureate.m_Prizes.isEmpty()) {
-            setPrefHeight(106.0 * pLaureate.m_Prizes.size());
+            setPrefHeight(UIPrizeEntry.PANE_HEIGHT * pLaureate.m_Prizes.size());
         }
-        else { setPrefHeight(106.0); }
+        else { setPrefHeight(UIPrizeEntry.PANE_HEIGHT); }
         
         // Create a UIPrizeEntry for every prize this laureate has been awarded.
         for (int i = 0 ; i < pLaureate.m_Prizes.size(); ++i) {
