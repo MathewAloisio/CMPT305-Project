@@ -437,8 +437,8 @@ public class UIOverviewPage extends SplitPane {
                 boolean countryCodeMatch = false;
                 if (!selectedCountryCodes.isEmpty()) {
                     for (String countryCode : validCountryCodes) {
-                        if (entry.m_Laureate.m_BornCountry.m_Code.compareTo(countryCode) == 0
-                            || entry.m_Laureate.m_DeathCountry.m_Code.compareTo(countryCode) == 0
+                        if ((entry.m_Laureate.m_BornCountry.m_Code.compareTo(countryCode) == 0
+                            || (entry.m_Laureate.m_DeathCountry != null && entry.m_Laureate.m_DeathCountry.m_Code.compareTo(countryCode) == 0))
                         ) {
                             countryCodeMatch = true;
                             break;

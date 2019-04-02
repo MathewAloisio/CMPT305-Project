@@ -20,8 +20,7 @@ public class UIPrizeEntry extends FlowPane {
     protected final Label motivationLabel;
     
     public static final Font FONT_HELVETICA16 = new Font("Helvetica", 16.0); 
-    public static final double PANE_HEIGHT = 106.0; // The default height of the UIPrizeEntry.
-    
+
     public UIPrizeEntry(Laureate pLaureate, Prize pPrize) {
         // Create labels.
         yearLabel = new Label();
@@ -30,7 +29,7 @@ public class UIPrizeEntry extends FlowPane {
         motivationLabel = new Label();
 
         // Setup ScrollPane size.
-        setPrefHeight(PANE_HEIGHT);
+        setPrefHeight(106.0);
         setPrefWidth(598.0);
         setStyle("-fx-border-color: black;");
         setMinWidth(USE_PREF_SIZE);
