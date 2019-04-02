@@ -35,7 +35,7 @@ public class Prize {
         switch (pCategory) {
             case "physics":
                 return PrizeCategory.PHYSICS;
-            case "chemisty":
+            case "chemistry":
                 return PrizeCategory.CHEMISTRY;
             case "medicine": // also contains physiology awards.
                 return PrizeCategory.MEDICINE;
