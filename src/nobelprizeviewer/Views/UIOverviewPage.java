@@ -294,11 +294,14 @@ public class UIOverviewPage extends SplitPane {
                 PageCache.Clear();
                 
                 // Update displayPane, populate with laureates.
-                displayPage.setStyle("-fx-border-color:red;");
                 ArrayList<Laureate> laureates = GetLaureates();
                 displayPage.setPageCount(0);
-                displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(laureates, pPageIndex));
-                displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
+                if (!laureates.isEmpty()) {
+                    displayPage.setStyle("-fx-border-color:gray;");
+                    displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(laureates, pPageIndex));
+                    displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
+                }
+                else { displayPage.setStyle("-fx-border-color:red;"); }
             }
         });
         // Build displayPane UI elements.
