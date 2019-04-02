@@ -360,7 +360,7 @@ public class UIOverviewPage extends SplitPane {
         
         pane = new GridPane();
         int minLaureateIndex = pPageIndex * LAUREATES_PER_PAGE;
-        for (int i = minLaureateIndex; i < minLaureateIndex + LAUREATES_PER_PAGE; ++i) {
+        for (int i = minLaureateIndex; i < Math.min(minLaureateIndex + LAUREATES_PER_PAGE, pLaureates.size()); ++i) {
             // Create laureate button.
             UILaureateButton laureateButton = new UILaureateButton(pLaureates.get(i), primaryStage, this);
             laureateButton.Initialize();
