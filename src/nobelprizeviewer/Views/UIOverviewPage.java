@@ -178,7 +178,7 @@ public class UIOverviewPage extends SplitPane {
         yearMinSlider.setValue(minYear);
         yearMinSlider.setMajorTickUnit(1);
         yearMinSlider.setMinorTickCount(1);
-        yearMinSlider.setBlockIncrement(0.1);
+        yearMinSlider.setBlockIncrement(1);
         yearMinSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMinSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
@@ -190,7 +190,7 @@ public class UIOverviewPage extends SplitPane {
         yearMaxSlider.setValue(maxYear);
         yearMaxSlider.setMajorTickUnit(1);
         yearMaxSlider.setMinorTickCount(1);
-        yearMaxSlider.setBlockIncrement(0.1);
+        yearMaxSlider.setBlockIncrement(1);
         yearMaxSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMaxSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
@@ -296,7 +296,8 @@ public class UIOverviewPage extends SplitPane {
                 // Update displayPane, populate with laureates.
                 displayPage.setStyle("-fx-border-color:red;");
                 ArrayList<Laureate> laureates = GetLaureates();
-                displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(pLaureates, pPageIndex));
+                displayPage.setPageCount(0);
+                displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(laureates, pPageIndex));
                 displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
             }
         });
