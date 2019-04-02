@@ -1,7 +1,6 @@
 package nobelprizeviewer.Models;
 
 import GoogleImageSearch.GoogleImageSearch;
-import PageCache.PageCache;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,7 +12,7 @@ import javafx.scene.image.Image;
 
 /**
  * A Laureate structured like the Nobel Prize JSON database's laureate.
- * @author Mathew Aloisio
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class Laureate {
     public final int m_DatabaseID; // The ID of the laureate in the nobel prize database.

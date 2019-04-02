@@ -18,7 +18,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
 /**
  * Used for testing Laureate.GetImage().
- * @author Mathew Aloisio
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class LaureateGetImageTest extends Application {
     public static HashMap<String, Country> COUNTRY_MAP;

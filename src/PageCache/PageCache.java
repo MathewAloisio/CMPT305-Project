@@ -5,8 +5,8 @@ import java.util.HashMap;
 import javafx.scene.layout.GridPane;
 
 /**
- * Caches images, removing them from the cache when they haven't been used in a given # of seconds.
- * @author Mathew Aloisio
+ * Caches GridPanes sorting them by page #, intended for use with JavaFX Pagination.
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class PageCache {
     private static final HashMap<Integer, GridPane> PAGE_MAP = new HashMap<>();

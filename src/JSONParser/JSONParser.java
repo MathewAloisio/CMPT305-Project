@@ -17,7 +17,7 @@ import java.util.Scanner;
 /**
  * Class that accepts a URL, gets JSON data as a string, then parses the string
  * into a JSON object
- * @author Mathew Aloisio
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class JSONParser {
     /**
