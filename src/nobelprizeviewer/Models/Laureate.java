@@ -28,6 +28,7 @@ public class Laureate {
     public final int m_DeathCountryNameID;
     public final Gender m_Gender;
     public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 laureate can win multiple prizes.
+    public ArrayList<Affiliation> m_PrizeAffiliations; // NOTE: The affiliation index cooresponds to the prize at the same index.
     // NOTE: Shares per-award and motivation for giving each laureate an award
     //      is done in the Prize class.
 
@@ -61,6 +62,7 @@ public class Laureate {
         m_Gender = pGender;
 
         m_Prizes = new ArrayList<>();
+        m_PrizeAffiliations = new ArrayList<>();
     }
     
     /**
@@ -94,10 +96,7 @@ public class Laureate {
      * @return m_BornCountry.m_Names.get(m_BornCountryNameID);
      */
     public String GetBornCountryName() {
-        if(m_BornCountry.m_Names.size() > m_BornCountryNameID){
-            return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
-        }
-        return "";
+        return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
     }
     
     /**
@@ -105,10 +104,7 @@ public class Laureate {
      * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
      */
     public String GetDeathCountryName() {
-        if(m_DeathCountry.m_Names.size() > m_DeathCountryNameID){
-            return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
-        }
-        return "";
+        return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
     }
     
     /**
