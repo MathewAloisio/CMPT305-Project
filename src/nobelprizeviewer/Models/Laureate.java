@@ -28,6 +28,7 @@ public class Laureate {
     public final int m_DeathCountryNameID;
     public final Gender m_Gender;
     public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 laureate can win multiple prizes.
+    public ArrayList<Affiliation> m_PrizeAffiliations; // NOTE: The affiliation index cooresponds to the prize at the same index.
     // NOTE: Shares per-award and motivation for giving each laureate an award
     //      is done in the Prize class.
 
@@ -61,6 +62,7 @@ public class Laureate {
         m_Gender = pGender;
 
         m_Prizes = new ArrayList<>();
+        m_PrizeAffiliations = new ArrayList<>();
     }
     
     /**

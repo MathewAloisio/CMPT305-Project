@@ -51,17 +51,13 @@ public class NobelPrizeViewer extends Application {
      * Get JSON data from the API and parse it
      */
     private static void InitializeData() {
-        //TODO: Fetching JSON data loading dialog...
-        
         // Fetch JSON data.
         System.out.print("Fetching JSON data...");
         JsonObject countryData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/country.json");
         JsonObject laureateData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/laureate.json");
         JsonObject prizeData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/prize.json");
         System.out.println(" DONE!");
-        
-        //TODO: Change dialogtext to parsing JSON data...
-        
+
         // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
         COUNTRY_MAP = ParseCountries(countryData);
@@ -131,9 +127,8 @@ public class NobelPrizeViewer extends Application {
                         break;
                 }
             }
-                
-            // Create a new laureate and add them to the list.
-            list.add(new Laureate(
+            
+            Laureate laureate = new Laureate(
                 obj.get("id").getAsInt(),
                 obj.has("firstname") ? obj.get("firstname").getAsString() : "",
                 obj.has("surname") ? obj.get("surname").getAsString() : "",
@@ -146,8 +141,29 @@ public class NobelPrizeViewer extends Application {
                 deathCountry,
                 deathCountryNameID,
                 Laureate.GetGenderFromString(obj.get("gender").getAsString())
-            ));
-         }
+            );
+            
+            // Parse affiliations.
+            if (obj.has("prizes")) {
+                for (JsonElement prizeElement : obj.get("prizes").getAsJsonArray()) {
+                    JsonObject prizeObj = prizeElement.getAsJsonObject();
+                    if (!prizeObj.has("affiliations"))
+                        continue;
+                    
+                    for (JsonElement affiliationElement : prizeObj.get("affiliations").getAsJsonArray()) {
+                        JsonObject affiliationObj = affiliationElement.getAsJsonObject();
+                        laureate.m_PrizeAffiliations.add(new Affiliation(
+                            affiliationObj.has("name") ? affiliationObj.get("name").getAsString() : "",
+                            affiliationObj.has("city") ? affiliationObj.get("city").getAsString() : "",
+                            affiliationObj.has("country") ? affiliationObj.get("country").getAsString() : ""
+                        ));
+                    }
+                }
+            }
+                
+            // Create a new laureate and add them to the list.
+            list.add(laureate);
+        }
         
         return list;
     }   
