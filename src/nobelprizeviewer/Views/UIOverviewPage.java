@@ -85,7 +85,7 @@ public class UIOverviewPage extends SplitPane {
         prizeList = pPrizes;
         
         // Calculate min year, max year.
-        int minYear = 0;
+        int minYear = 1901;
         int maxYear = 0;
         for (Prize prize : pPrizes) {
             if (prize.m_Year < minYear)
@@ -182,6 +182,7 @@ public class UIOverviewPage extends SplitPane {
         yearMinSlider.setMajorTickUnit(1);
         yearMinSlider.setMinorTickCount(1);
         yearMinSlider.setBlockIncrement(1);
+        yearMinSlider.setSnapToTicks(true);
         yearMinSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMinSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
@@ -194,6 +195,7 @@ public class UIOverviewPage extends SplitPane {
         yearMaxSlider.setMajorTickUnit(1);
         yearMaxSlider.setMinorTickCount(1);
         yearMaxSlider.setBlockIncrement(1);
+        yearMaxSlider.setSnapToTicks(true);
         yearMaxSlider.valueProperty().addListener((ObservableValue<? extends Number> pObservable, Number pOldValue, Number pNewValue) -> {
             yearMaxSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
