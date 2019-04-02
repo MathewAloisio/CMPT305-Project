@@ -151,12 +151,14 @@ public class NobelPrizeViewer extends Application {
                         continue;
                     
                     for (JsonElement affiliationElement : prizeObj.get("affiliations").getAsJsonArray()) {
-                        JsonObject affiliationObj = affiliationElement.getAsJsonObject();
-                        laureate.m_PrizeAffiliations.add(new Affiliation(
-                            affiliationObj.has("name") ? affiliationObj.get("name").getAsString() : "",
-                            affiliationObj.has("city") ? affiliationObj.get("city").getAsString() : "",
-                            affiliationObj.has("country") ? affiliationObj.get("country").getAsString() : ""
-                        ));
+                        if (affiliationElement.isJsonObject()) {
+                            JsonObject affiliationObj = affiliationElement.getAsJsonObject();
+                            laureate.m_PrizeAffiliations.add(new Affiliation(
+                                affiliationObj.has("name") ? affiliationObj.get("name").getAsString() : "",
+                                affiliationObj.has("city") ? affiliationObj.get("city").getAsString() : "",
+                                affiliationObj.has("country") ? affiliationObj.get("country").getAsString() : ""
+                            ));
+                        }
                     }
                 }
             }
