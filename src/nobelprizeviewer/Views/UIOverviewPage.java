@@ -462,7 +462,7 @@ public class UIOverviewPage extends SplitPane {
                 boolean affiliationMatch = affiliationEntry.isEmpty();
                 //TODO: affiliation match checking.
                 
-                if (countryCodeMatch && genderMatch && affiliationMatch)
+                if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && countryCodeMatch && genderMatch && affiliationMatch)
                     laureates.add(entry.m_Laureate);
             }
         }  

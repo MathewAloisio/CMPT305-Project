@@ -17,7 +17,6 @@ public class UIPrizePane extends FlowPane {
         setMinWidth(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
-        setMaxHeight(USE_PREF_SIZE);
         setOrientation(javafx.geometry.Orientation.VERTICAL);
     }
     
