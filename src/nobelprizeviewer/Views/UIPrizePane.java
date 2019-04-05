@@ -17,13 +17,12 @@ public class UIPrizePane extends FlowPane {
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setOrientation(javafx.geometry.Orientation.VERTICAL);
-        setVgap(getPrefHeight());
     }
     
     public void Initialize(Laureate pLaureate) {
         // Set prefered height based on the laureate this was initialized with.
         if (!pLaureate.m_Prizes.isEmpty()) {
-            setPrefHeight(UIPrizeEntry.PANE_HEIGHT * pLaureate.m_Prizes.size());
+            setPrefHeight((UIPrizeEntry.PANE_HEIGHT + getVgap()) * pLaureate.m_Prizes.size());
         }
         else { setPrefHeight(UIPrizeEntry.PANE_HEIGHT); }
         
