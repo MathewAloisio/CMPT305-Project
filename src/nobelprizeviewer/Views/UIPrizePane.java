@@ -9,6 +9,9 @@ import nobelprizeviewer.Models.Laureate;
  * @author Mathew Aloisio
  */
 public class UIPrizePane extends FlowPane {
+    /**
+     * Constructs a new instance of UIPrizePane.
+     */
     public UIPrizePane() {
         // Setup size and style.
         setPrefHeight(UIPrizeEntry.PANE_HEIGHT);
@@ -19,6 +22,10 @@ public class UIPrizePane extends FlowPane {
         setOrientation(javafx.geometry.Orientation.VERTICAL);
     }
     
+    /**
+     * Initializes a UIPrizePane
+     * @param pLaureate - The laureate who "owns" this prize pane.
+     */
     public void Initialize(Laureate pLaureate) {
         // Set prefered height based on the laureate this was initialized with.
         if (!pLaureate.m_Prizes.isEmpty()) {

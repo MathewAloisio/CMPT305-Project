@@ -28,6 +28,11 @@ public class UIPrizeEntry extends FlowPane {
     public static final double PANE_HEIGHT = 122.0;
     public static final double PANE_WIDTH = 948.0;
     
+    /**
+     * Constructs a new instance of UIPrizeEntry.
+     * @param pLaureate - The laureate of the prize.
+     * @param pPrizeIndex - The index of the prize in pLaureate.m_Prizes[].
+     */
     public UIPrizeEntry(Laureate pLaureate, int pPrizeIndex) {
         // Create labels.
         yearLabel = new Label();
@@ -85,6 +90,9 @@ public class UIPrizeEntry extends FlowPane {
         prizeMotivationLabel.setFont(FONT_HELVETICA14);
     }  
     
+    /**
+     * Initializes the UI element.
+     */
     public void Initialize() { 
         // Add labels as children to this UIPrizeEntry instance.
         getChildren().add(yearLabel);

@@ -43,6 +43,11 @@ public class UIBiographyPage extends SplitPane {
     public static final Font FONT_HELVETICA20 = new Font("Helvetica", 20.0);
     public static final Font FONT_HELVETICA28 = new Font("Helvetica", 28.0);
 
+    /**
+     * Constructs a new instance of UIBiographyPage.
+     * @param pPrimaryStage - The primary stage that controls the scenes.
+     * @param pOverviewScene - The scene the "back" button returns to.
+     */
     public UIBiographyPage(Stage pPrimaryStage, Scene pOverviewScene) {
         primaryStage = pPrimaryStage;
         overviewScene = pOverviewScene;
@@ -199,6 +204,11 @@ public class UIBiographyPage extends SplitPane {
         getItems().add(biographyPane);
     }
     
+    /**
+     * Updates the biography page to reflect the given laureate with the given image.
+     * @param pImage
+     * @param pLaureate 
+     */
     public void SetLaureate(Image pImage, Laureate pLaureate) {
         // Update results and Prize labels.
         resultsLabel.setText("Result of " + pLaureate.toString());
@@ -234,6 +244,9 @@ public class UIBiographyPage extends SplitPane {
         prizeScrollPane.setContent(prizePane);
     }
     
+    /**
+     * Sets the current scene of 'primaryStage' to the overview scene that this biography page was constructed with.
+     */
     public void BackToOverview() {
         primaryStage.setScene(overviewScene);
     }
