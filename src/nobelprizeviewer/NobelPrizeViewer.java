@@ -39,7 +39,7 @@ public class NobelPrizeViewer extends Application {
         // Build UIBiographyPage and scene.
         UIBiographyPage biographyPage = new UIBiographyPage(pPrimaryStage, scene);
         biographyPage.Initialize();
-        BIOGRAPHY_SCENE = new Scene(biographyPage);
+        BIOGRAPHY_SCENE = new Scene(biographyPage, 1024, 800);
         
         pPrimaryStage.setTitle("Nobel Prize Viewer");
         pPrimaryStage.setScene(scene);

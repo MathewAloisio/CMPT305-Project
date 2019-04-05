@@ -70,13 +70,13 @@ public class UIBiographyPage extends SplitPane {
     }
     
     public void Initialize() {
-        setDividerPositions(0.3);
+        setDividerPositions(0.26);
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
         setPrefHeight(661.0);
-        setPrefWidth(992.0);
+        setPrefWidth(1024.0);
 
         imagePane.setMinHeight(0.0);
         imagePane.setMinWidth(0.0);
@@ -171,9 +171,11 @@ public class UIBiographyPage extends SplitPane {
 
         prizeScrollPane.setLayoutX(26.0);
         prizeScrollPane.setLayoutY(302.0);
-        prizeScrollPane.setMaxWidth(USE_PREF_SIZE);
-        prizeScrollPane.setPrefHeight(212.0);
-        prizeScrollPane.setPrefWidth(600.0);
+        prizeScrollPane.setPrefHeight(UIPrizeEntry.PANE_HEIGHT * 2);
+        prizeScrollPane.setPrefWidth(648.0);
+        prizeScrollPane.setFitToHeight(true);
+        prizeScrollPane.setFitToWidth(true);
+        prizeScrollPane.setStyle("-fx-border-color: black;");
 
         imagePane.getChildren().add(backLink);
         imagePane.getChildren().add(imageView);
@@ -198,8 +200,9 @@ public class UIBiographyPage extends SplitPane {
     }
     
     public void SetLaureate(Image pImage, Laureate pLaureate) {
-        // Update results label.
+        // Update results and Prize labels.
         resultsLabel.setText("Result of " + pLaureate.toString());
+        prizesTitleLabel.setText("Prizes (" + pLaureate.m_Prizes.size() + ")");
         
         // Set name and gender labels.
         firstNameLabel.setText(pLaureate.m_FirstName);

@@ -14,4 +14,9 @@ public class Affiliation {
         m_City = pCity;
         m_Country = pCountry;
     }
+    
+    @Override
+    public String toString() {
+        return m_Name + ". " + m_City + ", " + m_Country;
+    }
 }

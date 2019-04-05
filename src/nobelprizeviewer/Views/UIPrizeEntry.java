@@ -8,6 +8,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import nobelprizeviewer.Models.Laureate;
 import nobelprizeviewer.Models.LaureateEntry;
 import nobelprizeviewer.Models.Prize;
+import nobelprizeviewer.Models.Affiliation;
 
 /**
  *
@@ -17,30 +18,39 @@ public class UIPrizeEntry extends FlowPane {
     protected final Label yearLabel;
     protected final Label categoryLabel;
     protected final Label shareLabel;
+    protected final Label affiliationLabel;
     protected final Label motivationLabel;
+    protected final Label prizeMotivationLabel;
     
-    public static final Font FONT_HELVETICA16 = new Font("Helvetica", 16.0); 
-
-    public UIPrizeEntry(Laureate pLaureate, Prize pPrize) {
+    // Static member(s).
+    public static final Font FONT_HELVETICA14 = new Font("Helvetica", 14.0); 
+    
+    public static final double PANE_HEIGHT = 122.0;
+    public static final double PANE_WIDTH = 948.0;
+    
+    public UIPrizeEntry(Laureate pLaureate, int pPrizeIndex) {
         // Create labels.
         yearLabel = new Label();
         categoryLabel = new Label();
         shareLabel = new Label();
+        affiliationLabel = new Label();
         motivationLabel = new Label();
-
+        prizeMotivationLabel = new Label();
+        
         // Setup ScrollPane size.
-        setPrefHeight(106.0);
-        setPrefWidth(598.0);
-        setStyle("-fx-border-color: black;");
+        setPrefHeight(PANE_HEIGHT);
+        setPrefWidth(PANE_WIDTH);
         setMinWidth(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMaxHeight(USE_PREF_SIZE);
         setOrientation(javafx.geometry.Orientation.VERTICAL);
-
+        setStyle("-fx-border-color: black;");
+        
         // Determine which LaureateEntry belongs to this laureate.
+        Prize prize = pLaureate.m_Prizes.get(pPrizeIndex);
         LaureateEntry laureateEntry = null;
-        for (LaureateEntry entry : pPrize.m_Laureates) {
+        for (LaureateEntry entry : prize.m_Laureates) {
             if (entry.m_Laureate == pLaureate) {
                 laureateEntry = entry;
                 break;
@@ -52,17 +62,27 @@ public class UIPrizeEntry extends FlowPane {
         }
 
         // Populate labels.
-        yearLabel.setText("Year: " + pPrize.m_Year);
-        yearLabel.setFont(FONT_HELVETICA16);
+        yearLabel.setText("Year: " + prize.m_Year);
+        yearLabel.setFont(FONT_HELVETICA14);
 
-        categoryLabel.setText("Category: " + pPrize.m_Category.toString());
-        categoryLabel.setFont(FONT_HELVETICA16);
+        categoryLabel.setText("Category: " + prize.m_Category.toString());
+        categoryLabel.setFont(FONT_HELVETICA14);
 
         shareLabel.setText("Share: " + laureateEntry.m_Share);
-        shareLabel.setFont(FONT_HELVETICA16);
+        shareLabel.setFont(FONT_HELVETICA14);
+        
+        if (pLaureate.m_PrizeAffiliations.size() > pPrizeIndex) {
+            Affiliation affiliation = pLaureate.m_PrizeAffiliations.get(pPrizeIndex);
+            affiliationLabel.setText("Affiliation: " + affiliation.toString());
+        }
+        else { affiliationLabel.setText("Affiliation: N/A"); }
+        affiliationLabel.setFont(FONT_HELVETICA14);
 
-        motivationLabel.setText("Motivation: " + (laureateEntry.m_Motivation.isEmpty() ? pPrize.m_Motivation : laureateEntry.m_Motivation));
-        motivationLabel.setFont(FONT_HELVETICA16);
+        motivationLabel.setText("Personal motivation: " + (laureateEntry.m_Motivation.isEmpty() ? "N/A" : laureateEntry.m_Motivation));
+        motivationLabel.setFont(FONT_HELVETICA14);
+        
+        prizeMotivationLabel.setText("Motivation: " + (prize.m_Motivation.isEmpty() ? "N/A" : prize.m_Motivation));
+        prizeMotivationLabel.setFont(FONT_HELVETICA14);
     }  
     
     public void Initialize() { 
@@ -70,6 +90,8 @@ public class UIPrizeEntry extends FlowPane {
         getChildren().add(yearLabel);
         getChildren().add(categoryLabel);
         getChildren().add(shareLabel);
+        getChildren().add(affiliationLabel);
         getChildren().add(motivationLabel);
+        getChildren().add(prizeMotivationLabel);
     }
 }

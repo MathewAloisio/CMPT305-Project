@@ -460,7 +460,20 @@ public class UIOverviewPage extends SplitPane {
                 // Check for affiliation match.
                 String affiliationEntry = affiliationTextField.getCharacters().toString();
                 boolean affiliationMatch = affiliationEntry.isEmpty();
-                //TODO: affiliation match checking.
+                if (!affiliationMatch) {
+                    // Determine the prize index. (This will never fail since the enclosing loop guarentees the laureate has the award.)
+                    int prizeID = 0;
+                    for (; prizeID < entry.m_Laureate.m_Prizes.size(); ++prizeID) {
+                        if (prize == entry.m_Laureate.m_Prizes.get(prizeID))
+                            break;
+                    }
+                    
+                    if (entry.m_Laureate.m_PrizeAffiliations.size() > prizeID) {
+                        Affiliation affiliation = entry.m_Laureate.m_PrizeAffiliations.get(prizeID);
+                        if (affiliation.toString().contains(affiliationEntry))
+                            affiliationMatch = true;
+                    }
+                }
                 
                 if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && countryCodeMatch && genderMatch && affiliationMatch)
                     laureates.add(entry.m_Laureate);

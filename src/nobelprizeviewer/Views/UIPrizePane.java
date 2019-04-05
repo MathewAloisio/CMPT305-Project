@@ -11,25 +11,25 @@ import nobelprizeviewer.Models.Laureate;
 public class UIPrizePane extends FlowPane {
     public UIPrizePane() {
         // Setup size and style.
-        setPrefHeight(106.0);
-        setPrefWidth(598.0);
-        setStyle("-fx-border-color: black;");
+        setPrefHeight(UIPrizeEntry.PANE_HEIGHT);
+        setPrefWidth(UIPrizeEntry.PANE_WIDTH);
         setMinWidth(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setOrientation(javafx.geometry.Orientation.VERTICAL);
+        setVgap(getPrefHeight());
     }
     
     public void Initialize(Laureate pLaureate) {
         // Set prefered height based on the laureate this was initialized with.
         if (!pLaureate.m_Prizes.isEmpty()) {
-            setPrefHeight(106.0 * pLaureate.m_Prizes.size());
+            setPrefHeight(UIPrizeEntry.PANE_HEIGHT * pLaureate.m_Prizes.size());
         }
-        else { setPrefHeight(106.0); }
+        else { setPrefHeight(UIPrizeEntry.PANE_HEIGHT); }
         
         // Create a UIPrizeEntry for every prize this laureate has been awarded.
         for (int i = 0 ; i < pLaureate.m_Prizes.size(); ++i) {
-            UIPrizeEntry entry = new UIPrizeEntry(pLaureate, pLaureate.m_Prizes.get(i));
+            UIPrizeEntry entry = new UIPrizeEntry(pLaureate, i);
             entry.Initialize();
             
             getChildren().add(entry);
