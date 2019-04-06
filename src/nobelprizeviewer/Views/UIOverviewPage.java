@@ -100,9 +100,11 @@ public class UIOverviewPage extends SplitPane {
         ObservableList<String> countryCodes = FXCollections.observableArrayList();
         for (HashMap.Entry<String, Country> entry : pCountries.entrySet()) {
             String key = entry.getKey();
+            
             if (!key.isEmpty())
                 key = key + " (" + entry.getValue().m_Names.get(0) + ")";
-            countryCodes.add(key);
+            if (!key.trim().equals(""))
+                countryCodes.add(key);
         }
         
         ObservableList<String> prizeCategories = FXCollections.observableArrayList();
