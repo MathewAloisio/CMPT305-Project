@@ -12,12 +12,14 @@ import javafx.scene.input.*;
 import javafx.stage.Stage;
 import javafx.collections.*;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.paint.Color;
 
 import nobelprizeviewer.Models.*;
 
 public class UIOverviewPage extends SplitPane {
     protected final AnchorPane filterPane;
     protected final Text genderText;
+    protected final Text noResultsText;
     protected final CheckBox genderCheckbox_Male;
     protected final CheckBox genderCheckbox_Female;
     protected final Text yearMinText;
@@ -51,6 +53,7 @@ public class UIOverviewPage extends SplitPane {
         primaryStage = pPrimaryStage;
         filterPane = new AnchorPane();
         genderText = new Text();
+        noResultsText = new Text();
         genderCheckbox_Male = new CheckBox();
         genderCheckbox_Female = new CheckBox();
         yearMinText = new Text();
@@ -128,7 +131,16 @@ public class UIOverviewPage extends SplitPane {
         genderText.setStrokeWidth(0.0);
         genderText.setText("Gender:");
         genderText.setFont(fontBold18);
-
+        
+        Font fontBold22 = new Font("System Bold", 26.0);
+        noResultsText.setLayoutX(250.0);
+        noResultsText.setLayoutY(700.0);
+        noResultsText.setFill(Color.RED);
+        noResultsText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        noResultsText.setStrokeWidth(0.0);
+        noResultsText.setText("No results found...");
+        noResultsText.setFont(fontBold22);
+        
         Font fontDefault18 = new Font(18.0);
         genderCheckbox_Male.setLayoutX(115.0);
         genderCheckbox_Male.setLayoutY(48.0);
@@ -305,8 +317,15 @@ public class UIOverviewPage extends SplitPane {
                     displayPage.setStyle("-fx-border-color:gray;");
                     displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(laureates, pPageIndex));
                     displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
+                    
+                    if (displayPane.getChildren().contains(noResultsText)) {
+                        displayPane.getChildren().remove(noResultsText);
+                    }
                 }
-                else { displayPage.setStyle("-fx-border-color:red;"); }
+                else {
+                    displayPage.setStyle("-fx-border-color:red;"); 
+                    displayPane.getChildren().add(noResultsText);
+                }
             }
         });
         // Build displayPane UI elements.
