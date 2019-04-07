@@ -101,10 +101,10 @@ public class UIOverviewPage extends SplitPane {
         for (HashMap.Entry<String, Country> entry : pCountries.entrySet()) {
             String key = entry.getKey();
             
-            if (!key.isEmpty())
+            if (!key.isEmpty()) {
                 key = key + " (" + entry.getValue().m_Names.get(0) + ")";
-            if (!key.trim().equals(""))
                 countryCodes.add(key);
+            }
         }
         
         ObservableList<String> prizeCategories = FXCollections.observableArrayList();
@@ -133,15 +133,6 @@ public class UIOverviewPage extends SplitPane {
         genderText.setStrokeWidth(0.0);
         genderText.setText("Gender:");
         genderText.setFont(fontBold18);
-        
-        Font fontBold22 = new Font("System Bold", 26.0);
-        noResultsText.setLayoutX(250.0);
-        noResultsText.setLayoutY(700.0);
-        noResultsText.setFill(Color.RED);
-        noResultsText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        noResultsText.setStrokeWidth(0.0);
-        noResultsText.setText("No results found...");
-        noResultsText.setFont(fontBold22);
         
         Font fontDefault18 = new Font(18.0);
         genderCheckbox_Male.setLayoutX(115.0);
@@ -296,12 +287,7 @@ public class UIOverviewPage extends SplitPane {
         affiliationText.setStrokeWidth(0.0);
         affiliationText.setText("Affiliation");
         affiliationText.setFont(fontBold18);
-        
-        displayPage.setLayoutX(76.0);
-        displayPage.setLayoutY(62.0);
-        displayPage.setPrefHeight(738.0);
-        displayPage.setPrefWidth(810.0);
-        
+
         searchButton.setLayoutX(100.0);
         searchButton.setLayoutY(610.0);
         searchButton.setMnemonicParsing(false);
@@ -320,16 +306,25 @@ public class UIOverviewPage extends SplitPane {
                     displayPage.setPageFactory((Integer pPageIndex) -> CreatePage(laureates, pPageIndex));
                     displayPage.setPageCount((int)Math.ceil(laureates.size() / LAUREATES_PER_PAGE));
                     
-                    if (displayPane.getChildren().contains(noResultsText)) {
-                        displayPane.getChildren().remove(noResultsText);
-                    }
+                    noResultsText.setVisible(false);
                 }
                 else {
                     displayPage.setStyle("-fx-border-color:red;"); 
-                    displayPane.getChildren().add(noResultsText);
+                    displayPage.setPageFactory(null);
+                    displayPage.setPageCount(1);
+                    
+                    noResultsText.setVisible(true);
                 }
             }
         });
+        
+        noResultsText.setLayoutX(searchButton.getLayoutX() - 20);
+        noResultsText.setLayoutY(searchButton.getLayoutY() + 54);
+        noResultsText.setFill(Color.RED);
+        noResultsText.setText("No results found...");
+        noResultsText.setFont(fontBold14);
+        noResultsText.setVisible(false);
+        
         // Build displayPane UI elements.
         displayPane.setMinHeight(0.0);
         displayPane.setMinWidth(0.0);
@@ -340,8 +335,13 @@ public class UIOverviewPage extends SplitPane {
         AnchorPane.setLeftAnchor(displayPage, 0.0);
         AnchorPane.setRightAnchor(displayPage, 0.0);
         AnchorPane.setTopAnchor(displayPage, 0.0);
-    
-
+        
+        displayPage.setLayoutX(76.0);
+        displayPage.setLayoutY(62.0);
+        displayPage.setPrefHeight(738.0);
+        displayPage.setPrefWidth(810.0);
+        displayPage.setPageCount(1);
+        
         // Populate filterPane.
         filterPane.getChildren().add(genderText);
         filterPane.getChildren().add(genderCheckbox_Male);
@@ -363,6 +363,7 @@ public class UIOverviewPage extends SplitPane {
         filterPane.getChildren().add(prizeCategoryListSelectAll);
         filterPane.getChildren().add(prizeCategoryListDeselectAll);
         filterPane.getChildren().add(searchButton);
+        filterPane.getChildren().add(noResultsText);
         getItems().add(filterPane);
         
         // Populate displayPane.
