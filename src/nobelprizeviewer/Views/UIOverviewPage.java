@@ -318,11 +318,11 @@ public class UIOverviewPage extends SplitPane {
             }
         });
         
-        noResultsText.setLayoutX(searchButton.getLayoutX() - 20);
-        noResultsText.setLayoutY(searchButton.getLayoutY() + 54);
+        noResultsText.setLayoutX(searchButton.getLayoutX() + 85);
+        noResultsText.setLayoutY(searchButton.getLayoutY() + 38);
         noResultsText.setFill(Color.RED);
         noResultsText.setText("No results found...");
-        noResultsText.setFont(fontBold14);
+        noResultsText.setFont(fontDefault12);
         noResultsText.setVisible(false);
         
         // Build displayPane UI elements.
