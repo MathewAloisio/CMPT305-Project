@@ -63,6 +63,7 @@ public class NobelPrizeViewer extends Application {
         BIOGRAPHY_SCENE = new Scene(biographyPage, 1024, 800);
         
         pPrimaryStage.setTitle("Nobel Prize Viewer");
+        pPrimaryStage.setMaximized(true);
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
     }

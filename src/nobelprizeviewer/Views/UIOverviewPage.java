@@ -656,7 +656,7 @@ public class UIOverviewPage extends SplitPane {
                 if (!nameMatch)
                     nameMatch = entry.m_Laureate.toString().toLowerCase().contains(nameEntry.toLowerCase());
                 
-                if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && nameMatch)
+                if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && nameMatch && !laureates.contains(entry.m_Laureate))
                     laureates.add(entry.m_Laureate);
             }
         }  
