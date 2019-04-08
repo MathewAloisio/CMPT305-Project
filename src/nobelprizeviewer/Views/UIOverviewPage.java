@@ -616,7 +616,7 @@ public class UIOverviewPage extends SplitPane {
                     
                     if (entry.m_Laureate.m_PrizeAffiliations.size() > prizeID) {
                         Affiliation affiliation = entry.m_Laureate.m_PrizeAffiliations.get(prizeID);
-                        if (affiliation.toString().contains(affiliationEntry))
+                        if (affiliation.toString().toLowerCase().contains(affiliationEntry.toLowerCase()))
                             affiliationMatch = true;
                     }
                 }
@@ -627,7 +627,7 @@ public class UIOverviewPage extends SplitPane {
                 String nameEntry = nameTextField.getCharacters().toString();
                 boolean nameMatch = nameEntry.isEmpty();
                 if (!nameMatch)
-                    nameMatch = entry.m_Laureate.toString().contains(nameEntry);
+                    nameMatch = entry.m_Laureate.toString().toLowerCase().contains(nameEntry.toLowerCase());
                 
                 if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && nameMatch)
                     laureates.add(entry.m_Laureate);
