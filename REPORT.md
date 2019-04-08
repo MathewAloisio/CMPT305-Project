@@ -1,7 +1,7 @@
 ## Contributions
 ### Mathew Aloisio (~20%)
 > - Background thread operations.
-> - UIOverviewPage filter half.
+> - UIOverviewPage filters and GetLaureates() function.
 > - Image loading.
 > - Page caching.
 > - Debugging / testing.

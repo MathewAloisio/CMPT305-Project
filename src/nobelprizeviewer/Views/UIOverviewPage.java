@@ -34,6 +34,8 @@ public class UIOverviewPage extends SplitPane {
     protected final Text countryCodeText;
     protected final TextField affiliationTextField;
     protected final Text affiliationText;
+    protected final TextField nameTextField;
+    protected final Text nameText;
     protected final Text prizeCategoryText;
     protected final ListView<String> prizeCategoryListView;
     protected final Hyperlink prizeCategoryListSelectAll;
@@ -69,6 +71,8 @@ public class UIOverviewPage extends SplitPane {
         countryCodeText = new Text();
         affiliationTextField = new TextField();
         affiliationText = new Text();
+        nameTextField = new TextField();
+        nameText = new Text();
         prizeCategoryText = new Text();
         prizeCategoryListView = new ListView<>();
         prizeCategoryListSelectAll = new Hyperlink();
@@ -126,39 +130,38 @@ public class UIOverviewPage extends SplitPane {
         filterPane.setPrefHeight(160.0);
         filterPane.setPrefWidth(100.0);
 
-        Font fontBold18 = new Font("System Bold", 18.0);
+        Font fontBold14 = new Font("System Bold", 14.0);
         genderText.setLayoutX(120.0);
-        genderText.setLayoutY(40.0);
+        genderText.setLayoutY(20.0);
         genderText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         genderText.setStrokeWidth(0.0);
         genderText.setText("Gender:");
-        genderText.setFont(fontBold18);
+        genderText.setFont(fontBold14);
         
-        Font fontDefault18 = new Font(18.0);
+        Font fontDefault14 = new Font(14.0);
         genderCheckbox_Male.setLayoutX(115.0);
-        genderCheckbox_Male.setLayoutY(48.0);
+        genderCheckbox_Male.setLayoutY(28.0);
         genderCheckbox_Male.setMnemonicParsing(false);
         genderCheckbox_Male.setText("Male");
-        genderCheckbox_Male.setFont(fontDefault18);
+        genderCheckbox_Male.setFont(fontDefault14);
         genderCheckbox_Male.setSelected(true);
 
         genderCheckbox_Female.setLayoutX(114.0);
-        genderCheckbox_Female.setLayoutY(76.0);
+        genderCheckbox_Female.setLayoutY(56.0);
         genderCheckbox_Female.setMnemonicParsing(false);
         genderCheckbox_Female.setText("Female");
-        genderCheckbox_Female.setFont(fontDefault18);
+        genderCheckbox_Female.setFont(fontDefault14);
         genderCheckbox_Female.setSelected(true);
 
-        Font fontBold14 = new Font("System Bold", 14.0);
         yearMinText.setLayoutX(65.0);
-        yearMinText.setLayoutY(125.0);
+        yearMinText.setLayoutY(100.0);
         yearMinText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         yearMinText.setStrokeWidth(0.0);
         yearMinText.setText("Year Min.");
         yearMinText.setFont(fontBold14);
 
         yearMaxText.setLayoutX(190.0);
-        yearMaxText.setLayoutY(125.0);
+        yearMaxText.setLayoutY(100.0);
         yearMaxText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         yearMaxText.setStrokeWidth(0.0);
         yearMaxText.setText("Year Max.");
@@ -166,21 +169,21 @@ public class UIOverviewPage extends SplitPane {
         
         Font fontDefault12 = new Font(12.0);
         yearMinSliderText.setLayoutX(80.0);
-        yearMinSliderText.setLayoutY(140.0);
+        yearMinSliderText.setLayoutY(115.0);
         yearMinSliderText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         yearMinSliderText.setStrokeWidth(0.0);
         yearMinSliderText.setText("(" + Integer.toString(minYear) + ")");
         yearMinSliderText.setFont(fontDefault12);
 
         yearMaxSliderText.setLayoutX(205.0);
-        yearMaxSliderText.setLayoutY(140.0);
+        yearMaxSliderText.setLayoutY(115.0);
         yearMaxSliderText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         yearMaxSliderText.setStrokeWidth(0.0);
         yearMaxSliderText.setText("(" + Integer.toString(maxYear) + ")");
         yearMaxSliderText.setFont(fontDefault12);
 
         yearMinSlider.setLayoutX(20.0);
-        yearMinSlider.setLayoutY(148.0);
+        yearMinSlider.setLayoutY(123.0);
         yearMinSlider.setMax(maxYear);
         yearMinSlider.setMin(minYear);
         yearMinSlider.setValue(minYear);
@@ -193,7 +196,7 @@ public class UIOverviewPage extends SplitPane {
         });
 
         yearMaxSlider.setLayoutX(160.0);
-        yearMaxSlider.setLayoutY(148.0);
+        yearMaxSlider.setLayoutY(123.0);
         yearMaxSlider.setMax(maxYear);
         yearMaxSlider.setMin(minYear);
         yearMaxSlider.setValue(maxYear);
@@ -207,7 +210,7 @@ public class UIOverviewPage extends SplitPane {
 
         Font fontDefault10 = new Font(10);
         countryCodeListSelectAll.setLayoutX(50.0);
-        countryCodeListSelectAll.setLayoutY(190.0);
+        countryCodeListSelectAll.setLayoutY(160.0);
         countryCodeListSelectAll.setText("select all");
         countryCodeListSelectAll.setFont(fontDefault10);
         countryCodeListSelectAll.setOnMouseClicked((MouseEvent pEvent) -> {
@@ -218,7 +221,7 @@ public class UIOverviewPage extends SplitPane {
         });
         
         countryCodeListDeselectAll.setLayoutX(195.0);
-        countryCodeListDeselectAll.setLayoutY(190.0);
+        countryCodeListDeselectAll.setLayoutY(160.0);
         countryCodeListDeselectAll.setText("deselect all");
         countryCodeListDeselectAll.setFont(fontDefault10);
         countryCodeListDeselectAll.setOnMouseClicked((MouseEvent pEvent) -> {
@@ -229,28 +232,28 @@ public class UIOverviewPage extends SplitPane {
         });
         
         countryCodeListView.setLayoutX(50.0);
-        countryCodeListView.setLayoutY(210.0);
+        countryCodeListView.setLayoutY(180.0);
         countryCodeListView.setPrefHeight(160.0);
         countryCodeListView.setPrefWidth(200.0);
         countryCodeListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         countryCodeListView.setItems(countryCodes);
 
-        countryCodeText.setLayoutX(80.0);
-        countryCodeText.setLayoutY(190.0);
+        countryCodeText.setLayoutX(95.0);
+        countryCodeText.setLayoutY(155.0);
         countryCodeText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         countryCodeText.setStrokeWidth(0.0);
         countryCodeText.setText("Country Codes:");
-        countryCodeText.setFont(fontBold18);
+        countryCodeText.setFont(fontBold14);
 
-        prizeCategoryText.setLayoutX(75.0);
-        prizeCategoryText.setLayoutY(400.0);
+        prizeCategoryText.setLayoutX(90.0);
+        prizeCategoryText.setLayoutY(365.0);
         prizeCategoryText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         prizeCategoryText.setStrokeWidth(0.0);
         prizeCategoryText.setText("Prize Category(s):");
-        prizeCategoryText.setFont(fontBold18);
+        prizeCategoryText.setFont(fontBold14);
         
         prizeCategoryListSelectAll.setLayoutX(50.0);
-        prizeCategoryListSelectAll.setLayoutY(400.0);
+        prizeCategoryListSelectAll.setLayoutY(370.0);
         prizeCategoryListSelectAll.setText("select all");
         prizeCategoryListSelectAll.setFont(fontDefault10);
         prizeCategoryListSelectAll.setOnMouseClicked((MouseEvent pEvent) -> {
@@ -261,7 +264,7 @@ public class UIOverviewPage extends SplitPane {
         });
         
         prizeCategoryListDeselectAll.setLayoutX(195.0);
-        prizeCategoryListDeselectAll.setLayoutY(400.0);
+        prizeCategoryListDeselectAll.setLayoutY(370.0);
         prizeCategoryListDeselectAll.setText("deselect all");
         prizeCategoryListDeselectAll.setFont(fontDefault10);
         prizeCategoryListDeselectAll.setOnMouseClicked((MouseEvent pEvent) -> {
@@ -272,27 +275,37 @@ public class UIOverviewPage extends SplitPane {
         });
 
         prizeCategoryListView.setLayoutX(50.0);
-        prizeCategoryListView.setLayoutY(420.0);
+        prizeCategoryListView.setLayoutY(390.0);
         prizeCategoryListView.setPrefHeight(120.0);
         prizeCategoryListView.setPrefWidth(200.0);
         prizeCategoryListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         prizeCategoryListView.setItems(prizeCategories);
+        
+        nameText.setLayoutX(100.0);
+        nameText.setLayoutY(530.0);
+        nameText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        nameText.setStrokeWidth(0.0);
+        nameText.setText("Laureate Name");
+        nameText.setFont(fontBold14);
+        
+        nameTextField.setLayoutX(70.0);
+        nameTextField.setLayoutY(535.0);
 
-        affiliationTextField.setLayoutX(70.0);
-        affiliationTextField.setLayoutY(570.0);
-
-        affiliationText.setLayoutX(100.0);
-        affiliationText.setLayoutY(560.0);
+        affiliationText.setLayoutX(110.0);
+        affiliationText.setLayoutY(575.0);
         affiliationText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         affiliationText.setStrokeWidth(0.0);
         affiliationText.setText("Affiliation");
-        affiliationText.setFont(fontBold18);
+        affiliationText.setFont(fontBold14);
+        
+        affiliationTextField.setLayoutX(70.0);
+        affiliationTextField.setLayoutY(580.0);
 
-        searchButton.setLayoutX(100.0);
+        searchButton.setLayoutX(110.0);
         searchButton.setLayoutY(610.0);
         searchButton.setMnemonicParsing(false);
         searchButton.setText("Search");
-        searchButton.setFont(fontDefault18);
+        searchButton.setFont(fontDefault14);
         searchButton.setOnMouseClicked((MouseEvent pEvent) -> {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
                 // Reset the PageCache.
@@ -356,6 +369,8 @@ public class UIOverviewPage extends SplitPane {
         filterPane.getChildren().add(countryCodeListSelectAll);
         filterPane.getChildren().add(countryCodeListDeselectAll);
         filterPane.getChildren().add(countryCodeText);
+        filterPane.getChildren().add(nameTextField);
+        filterPane.getChildren().add(nameText);
         filterPane.getChildren().add(affiliationTextField);
         filterPane.getChildren().add(affiliationText);
         filterPane.getChildren().add(prizeCategoryText);
@@ -468,6 +483,8 @@ public class UIOverviewPage extends SplitPane {
                     }
                 }
                 else { countryCodeMatch = true; }
+                if (!countryCodeMatch) 
+                    continue;
                 
                 // Check for gender match.
                 boolean genderMatch = false;
@@ -478,6 +495,8 @@ public class UIOverviewPage extends SplitPane {
                     ) genderMatch = true;
                 }
                 else { genderMatch = true; } // No genders selected, automatic match.
+                if (!genderMatch) 
+                    continue;
                 
                 // Check for affiliation match.
                 String affiliationEntry = affiliationTextField.getCharacters().toString();
@@ -496,8 +515,16 @@ public class UIOverviewPage extends SplitPane {
                             affiliationMatch = true;
                     }
                 }
+                if (!affiliationMatch)
+                    continue;
                 
-                if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && countryCodeMatch && genderMatch && affiliationMatch)
+                // Check for name match.
+                String nameEntry = nameTextField.getCharacters().toString();
+                boolean nameMatch = nameEntry.isEmpty();
+                if (!nameMatch)
+                    nameMatch = entry.m_Laureate.toString().contains(nameEntry);
+                
+                if (entry.m_Laureate.m_Gender != Gender.ORGANIZATION && nameMatch)
                     laureates.add(entry.m_Laureate);
             }
         }  
