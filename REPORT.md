@@ -36,3 +36,4 @@
 
 ## Known Flaws
 > - The application fetches and parses all JSON data when the application is first started creating an initial "lag" spike in exchange the data access is extremely fast during runtime.
+> - Most of the UI is positioned using absolute positions therefore the UI is not resolution independent. In a commercial application it would be unlikely you would do this.
