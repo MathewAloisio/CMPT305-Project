@@ -3,8 +3,15 @@ package nobelprizeviewer;
 import nobelprizeviewer.Models.*;
 import nobelprizeviewer.Views.*;
 
+import java.io.IOException;
+import java.io.File;
+
 import java.util.HashMap;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
 
 import javafx.application.*;
 import javafx.scene.*;
@@ -14,6 +21,8 @@ import com.google.gson.*;
 
 import JSONParser.*;
 import com.google.gson.JsonElement;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 /**
  * Class for fetching JSON data from the API, converting it to Java classes, 
@@ -25,11 +34,23 @@ public class NobelPrizeViewer extends Application {
     public static ArrayList<Laureate> LAUREATES;
     public static ArrayList<Prize> PRIZES;
     public static Scene BIOGRAPHY_SCENE;
+    public static Image LOADING_IMAGE = null;
     
     @Override
     public void start(Stage pPrimaryStage) throws Exception {
         // Initialize JSON data.
         InitializeData();
+
+        // Load loading image.
+        BufferedImage bufferedLoadingImage = null;
+        try {
+            bufferedLoadingImage = ImageIO.read(new File("assets/loading.gif"));
+        }
+        catch (IOException pException) {
+            System.out.println("IOException! Failed to find image for \"" + toString() + "\".\n" +  pException.toString());
+        }
+        if (bufferedLoadingImage != null)
+            LOADING_IMAGE = SwingFXUtils.toFXImage(bufferedLoadingImage, null);
         
         // Build UIOverviewPage and scene.
         UIOverviewPage uiOverviewPage = new UIOverviewPage(pPrimaryStage);

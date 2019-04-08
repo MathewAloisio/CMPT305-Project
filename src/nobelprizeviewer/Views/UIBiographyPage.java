@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
 import nobelprizeviewer.Models.Laureate;
+import nobelprizeviewer.NobelPrizeViewer;
 
 public class UIBiographyPage extends SplitPane {
     protected final AnchorPane imagePane;
@@ -42,7 +43,7 @@ public class UIBiographyPage extends SplitPane {
     public static final Font FONT_HELVETICA13 = new Font("Helvetica", 13.0);
     public static final Font FONT_HELVETICA20 = new Font("Helvetica", 20.0);
     public static final Font FONT_HELVETICA28 = new Font("Helvetica", 28.0);
-
+    
     /**
      * Constructs a new instance of UIBiographyPage.
      * @param pPrimaryStage - The primary stage that controls the scenes.
@@ -102,6 +103,7 @@ public class UIBiographyPage extends SplitPane {
         imageView.setLayoutY(77.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
+        imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
 
         resultsLabel.setLayoutX(9.0);
         resultsLabel.setLayoutY(30.0);
@@ -142,12 +144,12 @@ public class UIBiographyPage extends SplitPane {
         idLabel.setLayoutY(151.0);
         idLabel.setFont(FONT_HELVETICA13);
 
-        genderTitleLabel.setLayoutX(164.0);
+        genderTitleLabel.setLayoutX(195.0);
         genderTitleLabel.setLayoutY(125.0);
         genderTitleLabel.setText("Gender");
         genderTitleLabel.setFont(FONT_HELVETICA20);
 
-        genderLabel.setLayoutX(165.0);
+        genderLabel.setLayoutX(195.0);
         genderLabel.setLayoutY(151.0);
         genderLabel.setFont(FONT_HELVETICA13);
 
@@ -160,12 +162,12 @@ public class UIBiographyPage extends SplitPane {
         firstNameLabel.setLayoutY(91.0);
         firstNameLabel.setFont(FONT_HELVETICA13);
 
-        lastNameTitleLabel.setLayoutX(164.0);
+        lastNameTitleLabel.setLayoutX(195.0);
         lastNameTitleLabel.setLayoutY(65.0);
         lastNameTitleLabel.setText("Last Name");
         lastNameTitleLabel.setFont(FONT_HELVETICA20);
 
-        lastNameLabel.setLayoutX(165.0);
+        lastNameLabel.setLayoutX(195.0);
         lastNameLabel.setLayoutY(91.0);
         lastNameLabel.setFont(FONT_HELVETICA13);
 
@@ -236,7 +238,17 @@ public class UIBiographyPage extends SplitPane {
         else { deathLabel.setText("N/A"); }
         
         // Set laureate imageView.
-        imageView.setImage(pImage);
+        if (pImage != null) {
+            imageView.setImage(pImage);
+        }
+        else {
+            // Load the laureates image on a thread.
+            Runnable runnable = () -> {
+                Image image = pLaureate.GetImage();
+                if (image != null) imageView.setImage(image); // Check if the image was valid incase none was found.
+            };
+            new Thread(runnable).start();
+        }
         
         // Clear & fill prizeScrollPane.
         UIPrizePane prizePane = new UIPrizePane();
@@ -248,6 +260,7 @@ public class UIBiographyPage extends SplitPane {
      * Sets the current scene of 'primaryStage' to the overview scene that this biography page was constructed with.
      */
     public void BackToOverview() {
+        imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
         primaryStage.setScene(overviewScene);
     }
 }

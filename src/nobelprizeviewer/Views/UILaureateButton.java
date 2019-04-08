@@ -57,8 +57,12 @@ public class UILaureateButton extends AnchorPane {
         });
         
         // Set imageView image.
-        Image image = laureate.GetImage();
-        if (image != null) imageView.setImage(image); // Check if the image was valid incase none was found.
+        imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
+        Runnable runnable = () -> {
+            Image image = laureate.GetImage();
+            if (image != null) imageView.setImage(image); // Check if the image was valid incase none was found.
+        };
+        new Thread(runnable).start();
 
         nameLabel.setLayoutY(191.0);
         nameLabel.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
