@@ -238,7 +238,7 @@ public class UIBiographyPage extends SplitPane {
         else { deathLabel.setText("N/A"); }
         
         // Set laureate imageView.
-        if (pImage != null) {
+        if (pImage != null && pImage != NobelPrizeViewer.LOADING_IMAGE) {
             imageView.setImage(pImage);
         }
         else {
