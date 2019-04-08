@@ -8,5 +8,6 @@ public enum LaureateSortMode {
     NONE,
     NAME,
     GENDER,
+    PRIZECOUNT,
     COUNTRYCODE
 }

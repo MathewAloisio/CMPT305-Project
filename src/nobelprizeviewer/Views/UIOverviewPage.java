@@ -26,6 +26,7 @@ public class UIOverviewPage extends SplitPane {
     protected final Text sortByText;
     protected final CheckBox sortByCheckbox_Name;
     protected final CheckBox sortByCheckbox_Gender;
+    protected final CheckBox sortByCheckbox_PrizeCount;
     protected final CheckBox sortByCheckbox_CountryCode;
     protected final Text yearMinText;
     protected final Text yearMaxText;
@@ -66,6 +67,7 @@ public class UIOverviewPage extends SplitPane {
         sortByText = new Text();
         sortByCheckbox_Name = new CheckBox();
         sortByCheckbox_Gender = new CheckBox();
+        sortByCheckbox_PrizeCount = new CheckBox();
         sortByCheckbox_CountryCode = new CheckBox();
         yearMinText = new Text();
         yearMaxText = new Text();
@@ -171,20 +173,21 @@ public class UIOverviewPage extends SplitPane {
         sortByText.setFont(fontBold14);
         
         sortByCheckbox_Name.setLayoutX(200.0);
-        sortByCheckbox_Name.setLayoutY(30.0);
+        sortByCheckbox_Name.setLayoutY(25.0);
         sortByCheckbox_Name.setMnemonicParsing(false);
         sortByCheckbox_Name.setText("Name");
         sortByCheckbox_Name.setFont(fontDefault10);
-        sortByCheckbox_Name.setSelected(true);
+        sortByCheckbox_Name.setSelected(false);
         sortByCheckbox_Name.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
             if (pNewValue == true) {
                 sortByCheckbox_Gender.setSelected(false);
+                sortByCheckbox_PrizeCount.setSelected(false);
                 sortByCheckbox_CountryCode.setSelected(false);
             }
         });
         
         sortByCheckbox_Gender.setLayoutX(200.0);
-        sortByCheckbox_Gender.setLayoutY(45.0);
+        sortByCheckbox_Gender.setLayoutY(40.0);
         sortByCheckbox_Gender.setMnemonicParsing(false);
         sortByCheckbox_Gender.setText("Gender");
         sortByCheckbox_Gender.setFont(fontDefault10);
@@ -192,12 +195,27 @@ public class UIOverviewPage extends SplitPane {
         sortByCheckbox_Gender.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
             if (pNewValue == true) {
                 sortByCheckbox_Name.setSelected(false);
+                sortByCheckbox_PrizeCount.setSelected(false);
+                sortByCheckbox_CountryCode.setSelected(false);
+            }
+        });
+        
+        sortByCheckbox_PrizeCount.setLayoutX(200.0);
+        sortByCheckbox_PrizeCount.setLayoutY(55.0);
+        sortByCheckbox_PrizeCount.setMnemonicParsing(false);
+        sortByCheckbox_PrizeCount.setText("Prize Count");
+        sortByCheckbox_PrizeCount.setFont(fontDefault10);
+        sortByCheckbox_PrizeCount.setSelected(false);
+        sortByCheckbox_PrizeCount.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
+            if (pNewValue == true) {
+                sortByCheckbox_Name.setSelected(false);
+                sortByCheckbox_Gender.setSelected(false);
                 sortByCheckbox_CountryCode.setSelected(false);
             }
         });
         
         sortByCheckbox_CountryCode.setLayoutX(200.0);
-        sortByCheckbox_CountryCode.setLayoutY(60.0);
+        sortByCheckbox_CountryCode.setLayoutY(70.0);
         sortByCheckbox_CountryCode.setMnemonicParsing(false);
         sortByCheckbox_CountryCode.setText("Country Code");
         sortByCheckbox_CountryCode.setFont(fontDefault10);
@@ -206,6 +224,7 @@ public class UIOverviewPage extends SplitPane {
             if (pNewValue == true) {
                 sortByCheckbox_Name.setSelected(false);
                 sortByCheckbox_Gender.setSelected(false);
+                sortByCheckbox_PrizeCount.setSelected(false);
             }
         });
 
@@ -417,6 +436,7 @@ public class UIOverviewPage extends SplitPane {
         filterPane.getChildren().add(sortByText);
         filterPane.getChildren().add(sortByCheckbox_Name);
         filterPane.getChildren().add(sortByCheckbox_Gender);
+        filterPane.getChildren().add(sortByCheckbox_PrizeCount);
         filterPane.getChildren().add(sortByCheckbox_CountryCode);
         filterPane.getChildren().add(yearMinText);
         filterPane.getChildren().add(yearMaxText);
@@ -489,6 +509,8 @@ public class UIOverviewPage extends SplitPane {
             return LaureateSortMode.NAME;
         if (sortByCheckbox_Gender.isSelected())
             return LaureateSortMode.GENDER;
+        if (sortByCheckbox_PrizeCount.isSelected())
+            return LaureateSortMode.PRIZECOUNT;
         if (sortByCheckbox_CountryCode.isSelected())
             return LaureateSortMode.COUNTRYCODE;
         
@@ -510,6 +532,11 @@ public class UIOverviewPage extends SplitPane {
             case GENDER:
                 Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
                     return pLHS.m_Gender.compareTo(pRHS.m_Gender);
+                });
+                break;
+            case PRIZECOUNT:
+                Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
+                    return Integer.compare(pRHS.m_Prizes.size(), pLHS.m_Prizes.size());
                 });
                 break;
             case COUNTRYCODE:

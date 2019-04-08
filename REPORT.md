@@ -32,6 +32,7 @@
 > - JSON data model(s).
 > - Debugging / testing / bug fixes.
 
+***Sort by: prize count can be used to test laureates with multiple awards.*** 
+
 ## Known Flaws
 > - The application fetches and parses all JSON data when the application is first started creating an initial "lag" spike in exchange the data access is extremely fast during runtime.
-> - The project  doesn't provide the user with "sort by" functions in the display pane.
