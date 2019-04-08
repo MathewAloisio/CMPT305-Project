@@ -45,6 +45,13 @@ public class UILaureateButton extends AnchorPane {
         setMinWidth(USE_PREF_SIZE);
         setPrefHeight(210.0);
         setPrefWidth(246.0);
+        
+        setOnMouseEntered((MouseEvent pEvent) -> {
+            setStyle("-fx-border-color: gray;");
+        });
+        setOnMouseExited((MouseEvent pEvent) -> {
+            setStyle(null);
+        });
 
         imageView.setFitHeight(158.0);
         imageView.setFitWidth(150.0);
