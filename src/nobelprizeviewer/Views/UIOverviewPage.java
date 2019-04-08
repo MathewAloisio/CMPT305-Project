@@ -4,6 +4,7 @@ import PageCache.PageCache;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.scene.text.*;
 import javafx.scene.control.*;
@@ -18,10 +19,14 @@ import nobelprizeviewer.Models.*;
 
 public class UIOverviewPage extends SplitPane {
     protected final AnchorPane filterPane;
-    protected final Text genderText;
     protected final Text noResultsText;
+    protected final Text genderText;
     protected final CheckBox genderCheckbox_Male;
     protected final CheckBox genderCheckbox_Female;
+    protected final Text sortByText;
+    protected final CheckBox sortByCheckbox_Name;
+    protected final CheckBox sortByCheckbox_Gender;
+    protected final CheckBox sortByCheckbox_CountryCode;
     protected final Text yearMinText;
     protected final Text yearMaxText;
     protected final Text yearMinSliderText;
@@ -54,10 +59,14 @@ public class UIOverviewPage extends SplitPane {
     public UIOverviewPage(Stage pPrimaryStage) {
         primaryStage = pPrimaryStage;
         filterPane = new AnchorPane();
-        genderText = new Text();
         noResultsText = new Text();
+        genderText = new Text();
         genderCheckbox_Male = new CheckBox();
         genderCheckbox_Female = new CheckBox();
+        sortByText = new Text();
+        sortByCheckbox_Name = new CheckBox();
+        sortByCheckbox_Gender = new CheckBox();
+        sortByCheckbox_CountryCode = new CheckBox();
         yearMinText = new Text();
         yearMaxText = new Text();
         yearMinSliderText = new Text();
@@ -130,8 +139,9 @@ public class UIOverviewPage extends SplitPane {
         filterPane.setPrefHeight(160.0);
         filterPane.setPrefWidth(100.0);
 
+        Font fontDefault10 = new Font(10);
         Font fontBold14 = new Font("System Bold", 14.0);
-        genderText.setLayoutX(120.0);
+        genderText.setLayoutX(70.0);
         genderText.setLayoutY(20.0);
         genderText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         genderText.setStrokeWidth(0.0);
@@ -139,19 +149,65 @@ public class UIOverviewPage extends SplitPane {
         genderText.setFont(fontBold14);
         
         Font fontDefault14 = new Font(14.0);
-        genderCheckbox_Male.setLayoutX(115.0);
+        genderCheckbox_Male.setLayoutX(65.0);
         genderCheckbox_Male.setLayoutY(28.0);
         genderCheckbox_Male.setMnemonicParsing(false);
         genderCheckbox_Male.setText("Male");
         genderCheckbox_Male.setFont(fontDefault14);
         genderCheckbox_Male.setSelected(true);
 
-        genderCheckbox_Female.setLayoutX(114.0);
+        genderCheckbox_Female.setLayoutX(65.0);
         genderCheckbox_Female.setLayoutY(56.0);
         genderCheckbox_Female.setMnemonicParsing(false);
         genderCheckbox_Female.setText("Female");
         genderCheckbox_Female.setFont(fontDefault14);
         genderCheckbox_Female.setSelected(true);
+        
+        sortByText.setLayoutX(165.0);
+        sortByText.setLayoutY(20.0);
+        sortByText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        sortByText.setStrokeWidth(0.0);
+        sortByText.setText("Sort by:");
+        sortByText.setFont(fontBold14);
+        
+        sortByCheckbox_Name.setLayoutX(200.0);
+        sortByCheckbox_Name.setLayoutY(30.0);
+        sortByCheckbox_Name.setMnemonicParsing(false);
+        sortByCheckbox_Name.setText("Name");
+        sortByCheckbox_Name.setFont(fontDefault10);
+        sortByCheckbox_Name.setSelected(true);
+        sortByCheckbox_Name.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
+            if (pNewValue == true) {
+                sortByCheckbox_Gender.setSelected(false);
+                sortByCheckbox_CountryCode.setSelected(false);
+            }
+        });
+        
+        sortByCheckbox_Gender.setLayoutX(200.0);
+        sortByCheckbox_Gender.setLayoutY(45.0);
+        sortByCheckbox_Gender.setMnemonicParsing(false);
+        sortByCheckbox_Gender.setText("Gender");
+        sortByCheckbox_Gender.setFont(fontDefault10);
+        sortByCheckbox_Gender.setSelected(false);
+        sortByCheckbox_Gender.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
+            if (pNewValue == true) {
+                sortByCheckbox_Name.setSelected(false);
+                sortByCheckbox_CountryCode.setSelected(false);
+            }
+        });
+        
+        sortByCheckbox_CountryCode.setLayoutX(200.0);
+        sortByCheckbox_CountryCode.setLayoutY(60.0);
+        sortByCheckbox_CountryCode.setMnemonicParsing(false);
+        sortByCheckbox_CountryCode.setText("Country Code");
+        sortByCheckbox_CountryCode.setFont(fontDefault10);
+        sortByCheckbox_CountryCode.setSelected(false);
+        sortByCheckbox_CountryCode.selectedProperty().addListener((ObservableValue<? extends Boolean> pObservable, Boolean pOldValue, Boolean pNewValue) -> {
+            if (pNewValue == true) {
+                sortByCheckbox_Name.setSelected(false);
+                sortByCheckbox_Gender.setSelected(false);
+            }
+        });
 
         yearMinText.setLayoutX(65.0);
         yearMinText.setLayoutY(100.0);
@@ -208,7 +264,6 @@ public class UIOverviewPage extends SplitPane {
             yearMaxSliderText.setText("(" + Integer.toString(pNewValue.intValue()) + ")");
         });
 
-        Font fontDefault10 = new Font(10);
         countryCodeListSelectAll.setLayoutX(50.0);
         countryCodeListSelectAll.setLayoutY(160.0);
         countryCodeListSelectAll.setText("select all");
@@ -312,7 +367,7 @@ public class UIOverviewPage extends SplitPane {
                 PageCache.Clear();
                 
                 // Update displayPane, populate with laureates.
-                ArrayList<Laureate> laureates = GetLaureates();
+                ArrayList<Laureate> laureates = SortLaureates(GetLaureates());
                 displayPage.setPageCount(0);
                 if (!laureates.isEmpty()) {
                     displayPage.setStyle("-fx-border-color:gray;");
@@ -359,6 +414,10 @@ public class UIOverviewPage extends SplitPane {
         filterPane.getChildren().add(genderText);
         filterPane.getChildren().add(genderCheckbox_Male);
         filterPane.getChildren().add(genderCheckbox_Female);
+        filterPane.getChildren().add(sortByText);
+        filterPane.getChildren().add(sortByCheckbox_Name);
+        filterPane.getChildren().add(sortByCheckbox_Gender);
+        filterPane.getChildren().add(sortByCheckbox_CountryCode);
         filterPane.getChildren().add(yearMinText);
         filterPane.getChildren().add(yearMaxText);
         filterPane.getChildren().add(yearMinSliderText);
@@ -421,6 +480,52 @@ public class UIOverviewPage extends SplitPane {
         return pane;
     }
     
+    /**
+     * Returns the current LaureateSortMode based on the filters set by the user.
+     * @return LaureateSortMode - current sort mode.
+     */
+    public LaureateSortMode GetSortMode() {
+        if (sortByCheckbox_Name.isSelected())
+            return LaureateSortMode.NAME;
+        if (sortByCheckbox_Gender.isSelected())
+            return LaureateSortMode.GENDER;
+        if (sortByCheckbox_CountryCode.isSelected())
+            return LaureateSortMode.COUNTRYCODE;
+        
+        return LaureateSortMode.NONE;
+    }
+    
+    /**
+     * Sorts an ArrayList of laureates based on GetSortMode().
+     * @param pLaureates - The list of laureates to sort.
+     * @return ArrayList of Laureates sorted based on GetSortMode().
+     */
+    public ArrayList<Laureate> SortLaureates(ArrayList<Laureate> pLaureates) {
+        switch (GetSortMode()) {
+            case NAME:
+                Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
+                    return pLHS.toString().compareTo(pRHS.toString());
+                });
+                break;
+            case GENDER:
+                Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
+                    return pLHS.m_Gender.compareTo(pRHS.m_Gender);
+                });
+                break;
+            case COUNTRYCODE:
+                Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
+                    return pLHS.m_BornCountry.m_Code.compareTo(pRHS.m_BornCountry.m_Code);
+                });
+                break;
+        }
+        
+        return pLaureates;
+    }
+    
+    /**
+     * Returns an array of laureates that match the set filters.
+     * @return ArrayList of Laureates that match the set filters.
+     */
     public ArrayList<Laureate> GetLaureates() {
         // Determine which category to show.
         ArrayList<PrizeCategory> validCategories = new ArrayList<>();
