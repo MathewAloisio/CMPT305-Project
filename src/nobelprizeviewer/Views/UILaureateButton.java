@@ -17,6 +17,7 @@ public class UILaureateButton extends AnchorPane {
     protected final UIOverviewPage overviewPage; // Keep track of what overview page this button belongs to.
     protected final Stage primaryStage;
     
+    public static Font FONT_DEFAULT12 = new Font(12.0);
     public static Font FONT_DEFAULT14 = new Font(14.0);
 
     /**
@@ -71,13 +72,14 @@ public class UILaureateButton extends AnchorPane {
         };
         new Thread(runnable).start();
 
+        String laureateName = laureate.toString();
         nameLabel.setLayoutY(191.0);
         nameLabel.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         nameLabel.setStrokeWidth(0.0);
-        nameLabel.setText(laureate.toString());
+        nameLabel.setText(laureateName);
         nameLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         nameLabel.setWrappingWidth(246.0);
-        nameLabel.setFont(FONT_DEFAULT14);
+        nameLabel.setFont(laureateName.length() < 62 ? FONT_DEFAULT14 : FONT_DEFAULT12);
         nameLabel.setOnMouseClicked((MouseEvent pEvent) -> {
             OnMouseClicked(pEvent);
         });
