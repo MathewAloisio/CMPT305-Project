@@ -5,6 +5,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import nobelprizeviewer.Models.*;
@@ -48,7 +49,7 @@ public class UILaureateButton extends AnchorPane {
         setPrefWidth(246.0);
         
         setOnMouseEntered((MouseEvent pEvent) -> {
-            setStyle("-fx-border-color: gray;");
+            setStyle("-fx-border-color: green; -fx-border-width: 1;");
         });
         setOnMouseExited((MouseEvent pEvent) -> {
             setStyle(null);
@@ -80,6 +81,7 @@ public class UILaureateButton extends AnchorPane {
         nameLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         nameLabel.setWrappingWidth(246.0);
         nameLabel.setFont(laureateName.length() < 62 ? FONT_DEFAULT14 : FONT_DEFAULT12);
+       
         nameLabel.setOnMouseClicked((MouseEvent pEvent) -> {
             OnMouseClicked(pEvent);
         });

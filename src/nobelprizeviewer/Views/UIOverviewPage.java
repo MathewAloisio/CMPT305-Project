@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.collections.*;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
+import javafx.scene.effect.DropShadow;
 
 import nobelprizeviewer.Models.*;
 
@@ -334,6 +335,7 @@ public class UIOverviewPage extends SplitPane {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
                 // Select all prize categories.
                 prizeCategoryListView.getSelectionModel().selectAll();
+              
             }
         });
         
@@ -345,6 +347,7 @@ public class UIOverviewPage extends SplitPane {
             if (pEvent.getButton() == MouseButton.PRIMARY) {
                 // Deselect all prize categories.
                 prizeCategoryListView.getSelectionModel().clearSelection();
+                
             }
         });
 
@@ -372,6 +375,7 @@ public class UIOverviewPage extends SplitPane {
         affiliationText.setText("Affiliation");
         affiliationText.setFont(fontBold14);
         
+        
         affiliationTextField.setLayoutX(70.0);
         affiliationTextField.setLayoutY(580.0);
 
@@ -396,7 +400,7 @@ public class UIOverviewPage extends SplitPane {
                     noResultsText.setVisible(false);
                 }
                 else {
-                    displayPage.setStyle("-fx-border-color:red;"); 
+                    displayPage.setStyle("-fx-border-color:red; -fx-border-width: 8"); 
                     displayPage.setPageFactory(null);
                     displayPage.setPageCount(1);
                     
@@ -406,10 +410,12 @@ public class UIOverviewPage extends SplitPane {
         });
         
         noResultsText.setLayoutX(searchButton.getLayoutX() + 85);
-        noResultsText.setLayoutY(searchButton.getLayoutY() + 38);
+        noResultsText.setLayoutY(searchButton.getLayoutY() + 45);
         noResultsText.setFill(Color.RED);
         noResultsText.setText("No results found...");
-        noResultsText.setFont(fontDefault12);
+        DropShadow ds = new DropShadow();
+        noResultsText.setEffect(ds);
+        noResultsText.setFont(Font.font(null, FontWeight.BOLD, 20));
         noResultsText.setVisible(false);
         
         // Build displayPane UI elements.
@@ -417,6 +423,7 @@ public class UIOverviewPage extends SplitPane {
         displayPane.setMinWidth(0.0);
         displayPane.setPrefHeight(160.0);
         displayPane.setPrefWidth(100.0);
+        displayPane.setStyle("-fx-background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXlgN8ZAPJL7Qov-e0e8F56dvx_KKD8erQBc8cCIZlEMiubxg0); -fx-border-color: black; -fx-border-width: 12");
 
         AnchorPane.setBottomAnchor(displayPage, 0.0);
         AnchorPane.setLeftAnchor(displayPage, 0.0);
@@ -458,6 +465,7 @@ public class UIOverviewPage extends SplitPane {
         filterPane.getChildren().add(prizeCategoryListDeselectAll);
         filterPane.getChildren().add(searchButton);
         filterPane.getChildren().add(noResultsText);
+        filterPane.setStyle("-fx-background-color: lightsteelblue; -fx-opacity: 0.8");
         getItems().add(filterPane);
         
         // Populate displayPane.

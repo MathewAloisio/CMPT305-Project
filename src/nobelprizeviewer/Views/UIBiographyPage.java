@@ -8,9 +8,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.text.Font;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.scene.effect.DropShadow;
 
 import nobelprizeviewer.Models.Laureate;
 import nobelprizeviewer.NobelPrizeViewer;
@@ -115,7 +116,9 @@ public class UIBiographyPage extends SplitPane {
         biographyLabel.setLayoutX(24.0);
         biographyLabel.setLayoutY(14.0);
         biographyLabel.setText("Biography");
-        biographyLabel.setFont(FONT_HELVETICA28);
+        DropShadow ds = new DropShadow();
+        biographyLabel.setEffect(ds);
+        biographyLabel.setFont(Font.font(null, FontWeight.BOLD, 29));
 
         birthTitleLabel.setLayoutX(25.0);
         birthTitleLabel.setLayoutY(175.0);
@@ -182,11 +185,12 @@ public class UIBiographyPage extends SplitPane {
         prizeScrollPane.setPrefWidth(648.0);
         prizeScrollPane.setFitToHeight(true);
         prizeScrollPane.setFitToWidth(true);
-        prizeScrollPane.setStyle("-fx-border-color: black;");
+        
 
         imagePane.getChildren().add(backLink);
         imagePane.getChildren().add(imageView);
         imagePane.getChildren().add(resultsLabel);
+        imagePane.setStyle("-fx-background-color: darkgrey; -fx-opacity: 0.7; -fx-border-width: 8; -fx-border-color: black");
         getItems().add(imagePane);
         biographyPane.getChildren().add(biographyLabel);
         biographyPane.getChildren().add(birthTitleLabel);
@@ -203,6 +207,7 @@ public class UIBiographyPage extends SplitPane {
         biographyPane.getChildren().add(lastNameLabel);
         biographyPane.getChildren().add(prizesTitleLabel);
         biographyPane.getChildren().add(prizeScrollPane);
+        biographyPane.setStyle("-fx-background-image: url(http://www.myspacelayoutsupport.com/myspace-backgrounds/images/relapse.jpg); -fx-opacity: 1; -fx-border-color: black; -fx-border-width: 8");
         getItems().add(biographyPane);
     }
     
@@ -213,7 +218,8 @@ public class UIBiographyPage extends SplitPane {
      */
     public void SetLaureate(Image pImage, Laureate pLaureate) {
         // Update results and Prize labels.
-        resultsLabel.setText("Result of " + pLaureate.toString());
+        resultsLabel.setText("Results of " + pLaureate.toString());
+        resultsLabel.setFont(Font.font("Verdana", FontPosture.ITALIC, 15));
         prizesTitleLabel.setText("Prizes (" + pLaureate.m_Prizes.size() + ")");
         
         // Set name and gender labels.
@@ -254,6 +260,7 @@ public class UIBiographyPage extends SplitPane {
         UIPrizePane prizePane = new UIPrizePane();
         prizePane.Initialize(pLaureate);
         prizeScrollPane.setContent(prizePane);
+        
     }
     
     /**
