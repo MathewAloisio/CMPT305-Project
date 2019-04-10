@@ -423,7 +423,7 @@ public class UIOverviewPage extends SplitPane {
         displayPane.setMinWidth(0.0);
         displayPane.setPrefHeight(160.0);
         displayPane.setPrefWidth(100.0);
-        displayPane.setStyle("-fx-background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXlgN8ZAPJL7Qov-e0e8F56dvx_KKD8erQBc8cCIZlEMiubxg0); -fx-border-color: black; -fx-border-width: 12");
+        displayPane.setStyle("-fx-background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXlgN8ZAPJL7Qov-e0e8F56dvx_KKD8erQBc8cCIZlEMiubxg0); -fx-border-color: black; -fx-border-width: 10");
 
         AnchorPane.setBottomAnchor(displayPage, 0.0);
         AnchorPane.setLeftAnchor(displayPage, 0.0);
