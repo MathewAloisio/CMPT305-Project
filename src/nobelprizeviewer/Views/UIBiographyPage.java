@@ -232,13 +232,16 @@ public class UIBiographyPage extends SplitPane {
         idLabel.setText(id);
         
         // Set Birth and Death labels        
-        String birthDate = pLaureate.m_BornDate.toString();
-        String birthYear = birthDate.substring(birthDate.length() - 4);
-        birthLabel.setText("Born in " + pLaureate.GetBornCountryName() + " in the year " + birthYear);
+        if (pLaureate.m_BornCountry != null) {
+            String birthDate = pLaureate.m_BornDate.toString();
+            String birthYear = birthDate.substring(birthDate.length() - 4);
+            birthLabel.setText("Born in " + pLaureate.GetBornCountryName() + " in the year " + birthYear);
+        }
+        else { birthLabel.setText("N/A"); }
         
         if (pLaureate.m_DeathCountry != null) {
             String deathDate = pLaureate.m_DeathDate.toString();
-            String deathYear = deathDate.substring(birthDate.length() - 4);
+            String deathYear = deathDate.substring(deathDate.length() - 4);
             deathLabel.setText("Died in " + pLaureate.GetDeathCountryName() + " in the year " + deathYear);
         }
         else { deathLabel.setText("N/A"); }

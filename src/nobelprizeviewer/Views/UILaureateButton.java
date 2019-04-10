@@ -5,7 +5,6 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import nobelprizeviewer.Models.*;
@@ -54,6 +53,18 @@ public class UILaureateButton extends AnchorPane {
         setOnMouseExited((MouseEvent pEvent) -> {
             setStyle(null);
         });
+        setOnMouseClicked((MouseEvent pEvent) -> {
+            if (pEvent.getButton() != MouseButton.PRIMARY)
+                return;
+        
+            // Go to the bigography page for 'laureate'.
+            if (primaryStage != null) {
+                ((UIBiographyPage)NobelPrizeViewer.BIOGRAPHY_SCENE.getRoot()).SetLaureate(imageView.getImage(), laureate);
+                primaryStage.setMaximized(false);
+                primaryStage.setScene(NobelPrizeViewer.BIOGRAPHY_SCENE);
+                primaryStage.setMaximized(true);
+            }
+        });
 
         imageView.setFitHeight(158.0);
         imageView.setFitWidth(150.0);
@@ -61,10 +72,7 @@ public class UILaureateButton extends AnchorPane {
         imageView.setLayoutY(8.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.setOnMouseClicked((MouseEvent pEvent) -> {
-            OnMouseClicked(pEvent);
-        });
-        
+
         // Set imageView image.
         imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
         Runnable runnable = () -> {
@@ -82,24 +90,7 @@ public class UILaureateButton extends AnchorPane {
         nameLabel.setWrappingWidth(246.0);
         nameLabel.setFont(laureateName.length() < 62 ? FONT_DEFAULT14 : FONT_DEFAULT12);
        
-        nameLabel.setOnMouseClicked((MouseEvent pEvent) -> {
-            OnMouseClicked(pEvent);
-        });
-
         getChildren().add(imageView);
         getChildren().add(nameLabel);
-    }
-    
-    public void OnMouseClicked(MouseEvent pEvent) {
-        if (pEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        
-        // Go to the bigography page for 'laureate'.
-        if (primaryStage != null) {
-            ((UIBiographyPage)NobelPrizeViewer.BIOGRAPHY_SCENE.getRoot()).SetLaureate(imageView.getImage(), laureate);
-            primaryStage.setMaximized(false);
-            primaryStage.setScene(NobelPrizeViewer.BIOGRAPHY_SCENE);
-            primaryStage.setMaximized(true);
-        }
     }
 }
