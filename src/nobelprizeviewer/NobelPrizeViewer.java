@@ -1,60 +1,85 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nobelprizeviewer;
+
+import nobelprizeviewer.Models.*;
+import nobelprizeviewer.Views.*;
+
+import java.io.IOException;
+import java.io.File;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+
+import javafx.application.*;
+import javafx.scene.*;
+import javafx.stage.*;
 
 import com.google.gson.*;
 
 import JSONParser.*;
 import com.google.gson.JsonElement;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 /**
- *
+ * Class for fetching JSON data from the API, converting it to Java classes, 
+ * and initializing views.
  * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class NobelPrizeViewer extends Application {
     public static HashMap<String, Country> COUNTRY_MAP;
     public static ArrayList<Laureate> LAUREATES;
     public static ArrayList<Prize> PRIZES;
+    public static Scene BIOGRAPHY_SCENE;
+    public static Image LOADING_IMAGE = null;
     
     @Override
-    public void start(Stage pPrimaryStage) {
+    public void start(Stage pPrimaryStage) throws Exception {
         // Initialize JSON data.
         InitializeData();
-        
-        // Build UI.
-        StackPane root = new StackPane();
 
-        Scene scene = new Scene(root, 300, 250);
+        // Load loading image.
+        BufferedImage bufferedLoadingImage = null;
+        try {
+            bufferedLoadingImage = ImageIO.read(new File("assets/loading.gif"));
+        }
+        catch (IOException pException) {
+            System.out.println("IOException! Failed to find image for \"" + toString() + "\".\n" +  pException.toString());
+        }
+        if (bufferedLoadingImage != null)
+            LOADING_IMAGE = SwingFXUtils.toFXImage(bufferedLoadingImage, null);
         
-        pPrimaryStage.setTitle("Nobel prize viewer");
+        // Build UIOverviewPage and scene.
+        UIOverviewPage uiOverviewPage = new UIOverviewPage(pPrimaryStage);
+        uiOverviewPage.Initialize(LAUREATES, PRIZES, COUNTRY_MAP);
+        Scene scene = new Scene(uiOverviewPage, 1024, 800);
+        
+        // Build UIBiographyPage and scene.
+        UIBiographyPage biographyPage = new UIBiographyPage(pPrimaryStage, scene);
+        biographyPage.Initialize();
+        BIOGRAPHY_SCENE = new Scene(biographyPage, 1024, 800);
+        
+        pPrimaryStage.setTitle("Nobel Prize Viewer");
+        pPrimaryStage.setMaximized(true);
         pPrimaryStage.setScene(scene);
         pPrimaryStage.show();
     }
     
     // Section: JSON data parsing.
+    /**
+     * Get JSON data from the API and parse it
+     */
     private static void InitializeData() {
-        //TODO: Fetching JSON data loading dialog...
-        
         // Fetch JSON data.
         System.out.print("Fetching JSON data...");
         JsonObject countryData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/country.json");
         JsonObject laureateData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/laureate.json");
         JsonObject prizeData = JSONParser.JsonObjectFromURL("http://api.nobelprize.org/v1/prize.json");
         System.out.println(" DONE!");
-        
-        //TODO: Change dialogtext to parsiing JSON data...
-        
+
         // Parse JSON data into countries, then laureates, then prizes.
         System.out.print("Parsing JSON data...");
         COUNTRY_MAP = ParseCountries(countryData);
@@ -64,14 +89,15 @@ public class NobelPrizeViewer extends Application {
     }
     
     /**
-     *  Given a JsonObject of country data, generates a hash map
-     * where the country code is the key and the value is an ArrayList
-     * of the different names it goes by.
+     * Given a JsonObject of country data, generates a hash map where
+     * the country code is the key and the value is the Country for that key
      * @param pData - The JsonObject containing the country data.
-     * @return HashMap with all country's keys are the country codes.
+     * @return HashMap with all country's keys as the country codes and country
+     * names as values.
      */
     public static HashMap<String, Country> ParseCountries(JsonObject pData) {
         HashMap<String, Country> map = new HashMap<>();
+        
         for (JsonElement element : pData.get("countries").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
             String countryCode = obj.get("code").getAsString();
@@ -91,15 +117,16 @@ public class NobelPrizeViewer extends Application {
     }
     
     /**
-     * 
+     * Given a JsonObject of laureate data and a Map of the countries, generates
+     * a list containing the laureates
      * @param pData - The JsonObject containing the laureate data.
      * @param pCountries - A map of valid country-codes and countries.
-     * @return 
+     * @return ArrayList with all the laureates
      */
     public static ArrayList<Laureate> ParseLaureates(JsonObject pData, HashMap<String, Country> pCountries) {
         ArrayList<Laureate> list = new ArrayList<>();
         
-         for (JsonElement element : pData.get("laureates").getAsJsonArray()) {
+        for (JsonElement element : pData.get("laureates").getAsJsonArray()) {
             JsonObject obj = element.getAsJsonObject();
             String birthCountryName = obj.has("bornCountry") ? obj.get("bornCountry").getAsString() : "";
             String deathCountryName = obj.has("diedCountry") ? obj.get("diedCountry").getAsString() : "";
@@ -122,9 +149,8 @@ public class NobelPrizeViewer extends Application {
                         break;
                 }
             }
-                
-            // Create a new laureate and add them to the list.
-            list.add(new Laureate(
+            
+            Laureate laureate = new Laureate(
                 obj.get("id").getAsInt(),
                 obj.has("firstname") ? obj.get("firstname").getAsString() : "",
                 obj.has("surname") ? obj.get("surname").getAsString() : "",
@@ -137,12 +163,43 @@ public class NobelPrizeViewer extends Application {
                 deathCountry,
                 deathCountryNameID,
                 Laureate.GetGenderFromString(obj.get("gender").getAsString())
-            ));
-         }
+            );
+            
+            // Parse affiliations.
+            if (obj.has("prizes")) {
+                for (JsonElement prizeElement : obj.get("prizes").getAsJsonArray()) {
+                    JsonObject prizeObj = prizeElement.getAsJsonObject();
+                    if (!prizeObj.has("affiliations"))
+                        continue;
+                    
+                    for (JsonElement affiliationElement : prizeObj.get("affiliations").getAsJsonArray()) {
+                        if (affiliationElement.isJsonObject()) {
+                            JsonObject affiliationObj = affiliationElement.getAsJsonObject();
+                            laureate.m_PrizeAffiliations.add(new Affiliation(
+                                affiliationObj.has("name") ? affiliationObj.get("name").getAsString() : "",
+                                affiliationObj.has("city") ? affiliationObj.get("city").getAsString() : "",
+                                affiliationObj.has("country") ? affiliationObj.get("country").getAsString() : ""
+                            ));
+                        }
+                    }
+                }
+            }
+                
+            // Create a new laureate and add them to the list.
+            list.add(laureate);
+        }
         
         return list;
-    }
+    }   
     
+    /**
+     * Given a JsonObject of prize data and a list of laureates, generates a 
+     * list of prizes
+     * @param pData - The JsonObject containing the prize data
+     * @param pLaureates - List containing the laureates
+     * @return ArrayList with all the prizes, where each prize has a year, category,
+     * motivation, and list of awardees
+     */
     public static ArrayList<Prize> ParsePrizes(JsonObject pData, ArrayList<Laureate> pLaureates) {
         ArrayList<Prize> list = new ArrayList<>();
 

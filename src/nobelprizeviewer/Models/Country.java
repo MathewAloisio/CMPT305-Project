@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
 import java.util.ArrayList;
 
 /**
- * A country type to store information about
+ * A type to store information about a country
  * @author Mathew Aloisio
  */
 public class Country {
@@ -24,6 +24,10 @@ public class Country {
         m_Names = new ArrayList<>();
     }
     
+    /**
+     * String representation of a Country
+     * @return String containing the code and names of this Country
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

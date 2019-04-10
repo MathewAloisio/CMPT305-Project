@@ -1,4 +1,4 @@
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
 
 /**
  * Typed PrizeCategory enumerate implemented to avoid having to use raw strings.

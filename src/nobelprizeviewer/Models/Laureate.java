@@ -1,11 +1,18 @@
-package nobelprizeviewer;
+package nobelprizeviewer.Models;
+
+import GoogleImageSearch.GoogleImageSearch;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import java.util.Date;
 import java.util.ArrayList;
+import javafx.embed.swing.SwingFXUtils;
+
+import javafx.scene.image.Image;
 
 /**
  * A Laureate structured like the Nobel Prize JSON database's laureate.
- * @author Mathew Aloisio
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class Laureate {
     public final int m_DatabaseID; // The ID of the laureate in the nobel prize database.
@@ -21,23 +28,24 @@ public class Laureate {
     public final int m_DeathCountryNameID;
     public final Gender m_Gender;
     public ArrayList<Prize> m_Prizes; // NOTE: This field is NOT final because 1 laureate can win multiple prizes.
+    public ArrayList<Affiliation> m_PrizeAffiliations; // NOTE: The affiliation index cooresponds to the prize at the same index.
     // NOTE: Shares per-award and motivation for giving each laureate an award
     //      is done in the Prize class.
-    
+
     /**
      * Constructs a new instance of a Laureate.
      * @param pID - The database ID of the laureate in the Nobel prize database.
      * @param pFirstName - The first name of the laureate.
      * @param pLastName  - The last name of the laureate.
-     * @param pBornDate
-     * @param pBornCity
-     * @param pBornCountry
+     * @param pBornDate - The birth date of the laureate.
+     * @param pBornCity - The birth city of the laureate.
+     * @param pBornCountry - The birth country of the laureate.
      * @param pBornCountryNameID - The position of the country's name in pBornCounrty.m_Names[].
-     * @param pDeathDate
-     * @param pDeathCity
-     * @param pDeathCountry
+     * @param pDeathDate - The date the laureate died in.
+     * @param pDeathCity - The city the laureate died in.
+     * @param pDeathCountry - The country the laureate died in.
      * @param pDeathCountryNameID - The position of the country's name in pDeathCountry.m_Names[].
-     * @param pGender 
+     * @param pGender - The gender of the laureate
      */
     public Laureate(int pID, String pFirstName, String pLastName, Date pBornDate, String pBornCity, Country pBornCountry, int pBornCountryNameID, Date pDeathDate, String pDeathCity, Country pDeathCountry, int pDeathCountryNameID, Gender pGender){
         m_DatabaseID = pID;
@@ -52,12 +60,13 @@ public class Laureate {
         m_DeathCountry = pDeathCountry;
         m_DeathCountryNameID = pDeathCountryNameID;
         m_Gender = pGender;
-        
+
         m_Prizes = new ArrayList<>();
+        m_PrizeAffiliations = new ArrayList<>();
     }
     
     /**
-     * Checks if this Laureate is a person.
+     * Checks if this laureate is a person.
      * @return true if the Laureate is a person, otherwise false.
      */
     public boolean IsPerson() {
@@ -65,19 +74,43 @@ public class Laureate {
     }
     
     /**
+     * Uses GoogleImageSearch to get a BufferedImage of this laureate from google.
+     * Use the ImageView type to display and resize images.
+     * @return Image the image, or null.
+     */
+    public Image GetImage() {
+        // Load buffered image.
+        BufferedImage bufferedImage = null;   
+        try {
+            bufferedImage = GoogleImageSearch.FindImage(toString());
+        }
+        catch (IOException pException) {
+            System.out.println("IOException! Failed to find image for \"" + toString() + "\".\n" +  pException.toString());
+        }
+        
+        return bufferedImage != null ? SwingFXUtils.toFXImage(bufferedImage, null) : null;
+    }
+    
+    /**
      * Returns the appropriate name of their birth country for this person's time.
-     * @return m_BornCountry.m_Names.get(m_BornCountryNameID);
+     * @return m_BornCountry.m_Names.get(m_BornCountryNameID) or "N/A".
      */
     public String GetBornCountryName() {
-        return m_BornCountry != null ? m_BornCountry.m_Names.get(m_BornCountryNameID) : "";
+        if (m_BornCountry != null && m_BornCountry.m_Names.size() > m_BornCountryNameID)
+            return m_BornCountry.m_Names.get(m_BornCountryNameID);
+        
+        return "N/A";
     }
     
     /**
      * Returns the appropriate name of their death country for this person's time.
-     * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
+     * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID) or "N/A".
      */
     public String GetDeathCountryName() {
-        return m_DeathCountry != null ? m_DeathCountry.m_Names.get(m_DeathCountryNameID) : "";
+        if (m_DeathCountry != null && m_DeathCountry.m_Names.size() > m_DeathCountryNameID)
+            return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
+        
+        return "N/A";
     }
     
     /**
@@ -110,7 +143,11 @@ public class Laureate {
         
         return null;
     }
-
+    
+    /**
+     * String representation of a laureate
+     * @return First and last name of the laureate
+     */
     @Override
     public String toString() {
         return m_FirstName + ' ' + m_LastName;
