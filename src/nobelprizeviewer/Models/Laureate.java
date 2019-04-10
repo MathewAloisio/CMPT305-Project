@@ -93,24 +93,24 @@ public class Laureate {
     
     /**
      * Returns the appropriate name of their birth country for this person's time.
-     * @return m_BornCountry.m_Names.get(m_BornCountryNameID) or "".
+     * @return m_BornCountry.m_Names.get(m_BornCountryNameID) or "N/A".
      */
     public String GetBornCountryName() {
         if (m_BornCountry != null && m_BornCountry.m_Names.size() > m_BornCountryNameID)
             return m_BornCountry.m_Names.get(m_BornCountryNameID);
         
-        return "";
+        return "N/A";
     }
     
     /**
      * Returns the appropriate name of their death country for this person's time.
-     * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID) or "".
+     * @return m_DeathCountry.m_Names.get(m_DeathCountryNameID) or "N/A".
      */
     public String GetDeathCountryName() {
         if (m_DeathCountry != null && m_DeathCountry.m_Names.size() > m_DeathCountryNameID)
             return m_DeathCountry.m_Names.get(m_DeathCountryNameID);
         
-        return "";
+        return "N/A";
     }
     
     /**
