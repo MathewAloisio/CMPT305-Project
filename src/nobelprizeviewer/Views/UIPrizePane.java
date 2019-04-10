@@ -5,8 +5,8 @@ import javafx.scene.layout.FlowPane;
 import nobelprizeviewer.Models.Laureate;
 
 /**
- *
- * @author Mathew Aloisio
+ * A FlowPane that holds a collection of UIPrizeEntrys vertically separated.
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class UIPrizePane extends FlowPane {
     /**

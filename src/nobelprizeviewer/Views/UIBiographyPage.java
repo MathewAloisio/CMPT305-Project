@@ -17,6 +17,10 @@ import nobelprizeviewer.Models.Laureate;
 import nobelprizeviewer.NobelPrizeViewer;
 import nobelprizeviewer.Util;
 
+/**
+ * A SplitPane that holds biography information for a given laureate.
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
+ */
 public class UIBiographyPage extends SplitPane {
     protected final AnchorPane imagePane;
     protected final Hyperlink backLink;
@@ -241,14 +245,10 @@ public class UIBiographyPage extends SplitPane {
         firstNameLabel.setText(pLaureate.m_FirstName);
         lastNameLabel.setText(pLaureate.m_LastName);
         
-        String gender = pLaureate.m_Gender.toString();
-        String titleCasedGender = Util.ConvertWordToTitleCase(gender);
-        
-        genderLabel.setText(titleCasedGender);
+        genderLabel.setText(Util.ConvertWordToTitleCase(pLaureate.m_Gender.toString()));
         
         // Convert int id -> String
-        String id = String.valueOf(pLaureate.m_DatabaseID);
-        idLabel.setText(id);
+        idLabel.setText(String.valueOf(pLaureate.m_DatabaseID));
         
         // Set Birth and Death labels        
         if (pLaureate.m_BornCountry != null) {

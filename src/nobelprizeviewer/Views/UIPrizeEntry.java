@@ -9,10 +9,11 @@ import nobelprizeviewer.Models.Laureate;
 import nobelprizeviewer.Models.LaureateEntry;
 import nobelprizeviewer.Models.Prize;
 import nobelprizeviewer.Models.Affiliation;
+import nobelprizeviewer.Util;
 
 /**
- *
- * @author Mathew Aloisio
+ * A FlowPane that holds information about a laureate's Nobel prize.
+ * @author Mathew Aloisio, Tam Le, Dylan, Femi, Alyssa.
  */
 public class UIPrizeEntry extends FlowPane {
     protected final Label yearLabel;
@@ -70,7 +71,7 @@ public class UIPrizeEntry extends FlowPane {
         yearLabel.setText("Year: " + prize.m_Year);
         yearLabel.setFont(FONT_HELVETICA14);
 
-        categoryLabel.setText("Category: " + prize.m_Category.toString());
+        categoryLabel.setText("Category: " + Util.ConvertWordToTitleCase(prize.m_Category.toString()));
         categoryLabel.setFont(FONT_HELVETICA14);
 
         shareLabel.setText("Share: " + laureateEntry.m_Share);
