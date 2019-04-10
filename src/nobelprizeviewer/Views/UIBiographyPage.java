@@ -212,6 +212,20 @@ public class UIBiographyPage extends SplitPane {
     }
     
     /**
+     * Checks if a string is numeric or not.
+     * @param pString - The string to check.
+     * @return true if pString is totally numeric, otherwise false.
+     */
+    private static boolean _isNumeric(String pString) {
+        for (int i = 0; i < pString.length(); ++i) {
+            if (!Character.isDigit(pString.charAt(i)))
+                return false;
+        }
+        
+        return true;
+    }
+    
+    /**
      * Updates the biography page to reflect the given laureate with the given image.
      * @param pImage
      * @param pLaureate 
@@ -235,14 +249,18 @@ public class UIBiographyPage extends SplitPane {
         if (pLaureate.m_BornCountry != null) {
             String birthDate = pLaureate.m_BornDate.toString();
             String birthYear = birthDate.substring(birthDate.length() - 4);
-            birthLabel.setText("Born in " + pLaureate.GetBornCountryName() + " in the year " + birthYear);
+            if (!_isNumeric(birthYear))
+                birthYear = "N/A";
+            birthLabel.setText("Born in " + pLaureate.GetBornCountryName() + " in the year " + birthYear + ".");
         }
         else { birthLabel.setText("N/A"); }
         
         if (pLaureate.m_DeathCountry != null) {
             String deathDate = pLaureate.m_DeathDate.toString();
             String deathYear = deathDate.substring(deathDate.length() - 4);
-            deathLabel.setText("Died in " + pLaureate.GetDeathCountryName() + " in the year " + deathYear);
+            if (!_isNumeric(deathYear))
+                deathYear = "N/A";
+            deathLabel.setText("Died in " + pLaureate.GetDeathCountryName() + " in the year " + deathYear + ".");
         }
         else { deathLabel.setText("N/A"); }
         
