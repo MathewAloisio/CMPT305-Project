@@ -15,6 +15,7 @@ import javafx.scene.effect.DropShadow;
 
 import nobelprizeviewer.Models.Laureate;
 import nobelprizeviewer.NobelPrizeViewer;
+import nobelprizeviewer.Util;
 
 public class UIBiographyPage extends SplitPane {
     protected final AnchorPane imagePane;
@@ -129,13 +130,13 @@ public class UIBiographyPage extends SplitPane {
         birthLabel.setLayoutY(201.0);
         birthLabel.setFont(FONT_HELVETICA13);
 
-        deathTitleLabel.setLayoutX(335.0);
-        deathTitleLabel.setLayoutY(175.0);
+        deathTitleLabel.setLayoutX(25.0);
+        deathTitleLabel.setLayoutY(231.0);
         deathTitleLabel.setText("Death");
         deathTitleLabel.setFont(FONT_HELVETICA20);
 
-        deathLabel.setLayoutX(335.0);
-        deathLabel.setLayoutY(201.0);
+        deathLabel.setLayoutX(25.0);
+        deathLabel.setLayoutY(256.0);
         deathLabel.setFont(FONT_HELVETICA13);
 
         idTitleLabel.setLayoutX(23.0);
@@ -175,12 +176,12 @@ public class UIBiographyPage extends SplitPane {
         lastNameLabel.setFont(FONT_HELVETICA13);
 
         prizesTitleLabel.setLayoutX(23.0);
-        prizesTitleLabel.setLayoutY(257.0);
+        prizesTitleLabel.setLayoutY(287.0);
         prizesTitleLabel.setText("Prizes");
         prizesTitleLabel.setFont(FONT_HELVETICA28);
 
         prizeScrollPane.setLayoutX(26.0);
-        prizeScrollPane.setLayoutY(302.0);
+        prizeScrollPane.setLayoutY(332.0);
         prizeScrollPane.setPrefHeight(UIPrizeEntry.PANE_HEIGHT * 2);
         prizeScrollPane.setPrefWidth(648.0);
         prizeScrollPane.setFitToHeight(true);
@@ -239,7 +240,11 @@ public class UIBiographyPage extends SplitPane {
         // Set name and gender labels.
         firstNameLabel.setText(pLaureate.m_FirstName);
         lastNameLabel.setText(pLaureate.m_LastName);
-        genderLabel.setText(pLaureate.m_Gender.toString());
+        
+        String gender = pLaureate.m_Gender.toString();
+        String titleCasedGender = Util.ConvertWordToTitleCase(gender);
+        
+        genderLabel.setText(titleCasedGender);
         
         // Convert int id -> String
         String id = String.valueOf(pLaureate.m_DatabaseID);

@@ -29,4 +29,13 @@ public class Util {
         
         return null;
     }
+    
+    /**
+     * Given a word, convert it to Title case.
+     * @param word - The word to convert
+     * @return Title-cased word (e.g. cat -> Cat)
+     */
+    public static String ConvertWordToTitleCase(String word) {
+        return word.charAt(0) + word.substring(1).toLowerCase();
+    }
 }
