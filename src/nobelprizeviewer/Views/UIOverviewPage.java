@@ -549,6 +549,11 @@ public class UIOverviewPage extends SplitPane {
                 break;
             case COUNTRYCODE:
                 Collections.sort(pLaureates, (Laureate pLHS, Laureate pRHS) -> {
+                    if (pLHS.m_BornCountry == null)
+                        return 1;
+                    if (pRHS.m_BornCountry == null)
+                        return -1;
+                    
                     return pLHS.m_BornCountry.m_Code.compareTo(pRHS.m_BornCountry.m_Code);
                 });
                 break;

@@ -260,7 +260,6 @@ public class UIBiographyPage extends SplitPane {
         UIPrizePane prizePane = new UIPrizePane();
         prizePane.Initialize(pLaureate);
         prizeScrollPane.setContent(prizePane);
-        
     }
     
     /**
@@ -268,6 +267,8 @@ public class UIBiographyPage extends SplitPane {
      */
     public void BackToOverview() {
         imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
+        primaryStage.setMaximized(false);
         primaryStage.setScene(overviewScene);
+        primaryStage.setMaximized(true);
     }
 }

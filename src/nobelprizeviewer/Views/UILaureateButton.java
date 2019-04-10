@@ -97,7 +97,9 @@ public class UILaureateButton extends AnchorPane {
         // Go to the bigography page for 'laureate'.
         if (primaryStage != null) {
             ((UIBiographyPage)NobelPrizeViewer.BIOGRAPHY_SCENE.getRoot()).SetLaureate(imageView.getImage(), laureate);
+            primaryStage.setMaximized(false);
             primaryStage.setScene(NobelPrizeViewer.BIOGRAPHY_SCENE);
+            primaryStage.setMaximized(true);
         }
     }
 }
