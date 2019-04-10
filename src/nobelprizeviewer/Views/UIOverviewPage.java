@@ -365,10 +365,10 @@ public class UIOverviewPage extends SplitPane {
         nameText.setText("Laureate Name");
         nameText.setFont(fontBold14);
         
-        nameTextField.setLayoutX(70.0);
+        nameTextField.setLayoutX(67.5);
         nameTextField.setLayoutY(535.0);
 
-        affiliationText.setLayoutX(110.0);
+        affiliationText.setLayoutX(119.0);
         affiliationText.setLayoutY(575.0);
         affiliationText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         affiliationText.setStrokeWidth(0.0);
@@ -376,10 +376,10 @@ public class UIOverviewPage extends SplitPane {
         affiliationText.setFont(fontBold14);
         
         
-        affiliationTextField.setLayoutX(70.0);
+        affiliationTextField.setLayoutX(67.5);
         affiliationTextField.setLayoutY(580.0);
 
-        searchButton.setLayoutX(110.0);
+        searchButton.setLayoutX(118.0);
         searchButton.setLayoutY(610.0);
         searchButton.setMnemonicParsing(false);
         searchButton.setText("Search");
