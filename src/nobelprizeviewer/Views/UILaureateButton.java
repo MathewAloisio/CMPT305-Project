@@ -71,7 +71,7 @@ public class UILaureateButton extends AnchorPane {
         imageView.setLayoutX(60.0);
         imageView.setLayoutY(8.0);
         imageView.setPickOnBounds(true);
-        imageView.setPreserveRatio(true);
+        imageView.setPreserveRatio(false);
 
         // Set imageView image.
         imageView.setImage(NobelPrizeViewer.LOADING_IMAGE);
